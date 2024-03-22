@@ -49,8 +49,14 @@ export default defineComponent({
             align-items: center;
             user-select: none;
             h1{
-                font-family: 'KOODAK';
+                font-family: 'KOODAKBOLD';
                 color: #fff;
+                transition: transform 500ms;
+            }
+            &:hover{
+                h1{
+                    transform: scale(1.5);
+                }
             }
         }
     }
