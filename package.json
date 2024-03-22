@@ -15,7 +15,8 @@
     "vue": "^3.4.21",
     "vue-awesome-swiper": "^5.0.1",
     "vue-icon": "^2.3.0",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vue3-carousel": "^0.3.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
