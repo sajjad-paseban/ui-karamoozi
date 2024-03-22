@@ -4,3 +4,36 @@
 @import 'fonts';
 @import 'buttons';
 
+.badge{
+    border-radius: 5px;
+    padding: 4px;
+}
+.badge-info{
+    background-color: #75C0E0;
+    color: #000;
+}
+
+.badge-success{
+    background-color: #39A275;
+    color: #fff;
+}
+
+.badge-danger{
+    background-color: #DF1C44;
+    color: #fff;
+}
+
+.badge-primary{
+    background-color: #194A8D;
+    color: #fff;
+}
+
+.badge-warning{
+    background-color: #FECF6A;
+    color: #000;
+}
+
+.badge-secondary{
+    background-color: #263238;
+    color: #fff;
+}
