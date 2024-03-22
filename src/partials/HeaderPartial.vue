@@ -22,14 +22,14 @@
     </header>
 </template>
 
-<script lang="ts">
+<script>
 import Logo from "@/components/Logo.vue";
 import { defineComponent } from "vue";
 import HeaderMenuPartial from "./HeaderMenuPartial.vue";
 import Button from "@/components/Button.vue";
 import { FeLogIn } from "@kalimahapps/vue-icons";
 export default defineComponent({
-  components: { Logo, HeaderMenuPartial, Button, FeLogIn },
+    components: { Logo, HeaderMenuPartial, Button, FeLogIn },
     name: 'header-partial',
 })
 </script>
