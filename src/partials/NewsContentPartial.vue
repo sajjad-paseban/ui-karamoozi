@@ -1,7 +1,8 @@
 <template>
     <div class="news-content-partial">
         <section-title 
-            title="اخبار و اطلاعیه ها" 
+            title="اخبار و اطلاعیه ها"
+            caption="اخبار و اطلاعیه های اخیر دانشگاه را در اینجا دنبال کنید"
         >
             <McAnnouncementLine />
         </section-title>

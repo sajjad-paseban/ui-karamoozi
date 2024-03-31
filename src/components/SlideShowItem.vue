@@ -48,6 +48,7 @@ export default defineComponent({
         border-top-right-radius: 5px;
         overflow: hidden;
         position: relative;
+        box-shadow: 0px 0px 2px rgba($color: #263238, $alpha: 0.5);
         img{
             width: 100%;
             max-height: 150px;

@@ -4,6 +4,36 @@
 @import 'fonts';
 @import 'buttons';
 
+body{
+    background-color: #F5F5F5;
+}
+
+.form-group{
+    text-align: right;
+    label{
+        font-family: 'vazir';
+        font-size: 14px;
+        margin: 5px 0;
+        margin-right: 4px;
+    }
+    textarea{
+        resize: none;
+        height: 250px;
+    }
+    input, textarea{
+        font-family: 'vazir';
+        &[en]{
+            direction: ltr;
+        }
+    }
+    span{
+        font-family: 'vazir';
+        font-size: 12px;
+        margin: 3px;
+        color: #DF1C44;
+    }
+}
+
 .badge{
     border-radius: 5px;
     padding: 4px;
@@ -36,4 +66,48 @@
 .badge-secondary{
     background-color: #263238;
     color: #fff;
+}
+
+.vgt-wrap{
+    *{
+        font-family: 'vazir', Arial, Calibri;
+        font-size: 12px;
+    }
+
+    .vgt-input{
+        direction: rtl;
+    }
+
+    .vgt-table{
+        direction: rtl;
+
+        th,td{
+            text-align: center;
+        }
+    }
+
+    .vgt-wrap__footer{
+        padding: 8px 10px;
+        .footer__row-count__label{
+            font-size: 13px;
+        }
+        .footer__row-count__select{
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        .footer__navigation{
+            font-size: 12px;
+            span{
+                font-size: 12px;
+            }
+            .footer__navigation__page-info{
+                direction: rtl;
+            }
+        }
+           
+        &.vgt-wrap__footer .footer__row-count::after{
+            width: 0.1px !important;
+        }
+    }
 }

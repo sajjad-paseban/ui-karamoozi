@@ -6,7 +6,7 @@
                 group="alpha"
                 btnClass="btn btn-light"
                 path="/login"
-                title="ورود به پرتال"
+                title="ورود به پنل کاربری"
             >
             <FeLogIn />            
         </Button>            

@@ -21,11 +21,11 @@ export default defineComponent({
 <style lang="scss" scoped>
     .item{
         position: relative;
-        height: 550px;
+        height: 450px;
 
         img{
             width: 100%;
-            height: 550px;
+            height: 450px;
             object-fit: cover;
             object-position: center center;
         }

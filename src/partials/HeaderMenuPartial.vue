@@ -1,22 +1,22 @@
 <template>
     <ul>
-        <li class="active">
-            <router-link to="/">
+        <li :class="{active: route == 0}">
+            <router-link to="/" @click="set_ment_item_active('home')">
                 صفحه اصلی
             </router-link>
         </li>
-        <li>
-            <router-link to="/">
+        <li :class="{active: route == 1}">
+            <router-link to="/company" @click="set_ment_item_active('company')">
                 لیست شرکت ها
             </router-link>
         </li>
-        <li>
-            <router-link to="/">
+        <li :class="{active: route == 2}">
+            <router-link to="/news" @click="set_ment_item_active('news')">
                 اخبار و اطلاعیه ها
             </router-link>
         </li>
-        <li>
-            <router-link to="/contact-us">
+        <li :class="{active: route == 3}">
+            <router-link to="/contact-us" @click="set_ment_item_active('contactus')">
                 ارتباط با ما
             </router-link>
         </li>
@@ -24,9 +24,24 @@
 </template>
 
 <script lang="ts">
-import Vue, { defineComponent } from 'vue'
+import { defineComponent } from 'vue'
+import { menu_switch } from '@/helpers/Functions'
 export default defineComponent({
-    name: 'header-menu-partial'
+    name: 'header-menu-partial',
+    data(){
+        return {
+            route: 0
+        }
+    },
+    methods: {
+        set_ment_item_active(name: string){
+            this.route = menu_switch(name);
+        }
+    },
+    mounted(){
+        console.log(this.$route.name)
+        this.route = menu_switch((this.$route.name as string));
+    }
 })
 </script>
 

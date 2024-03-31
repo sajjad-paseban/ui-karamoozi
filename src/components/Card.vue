@@ -1,6 +1,5 @@
-<script>
-import { string } from "yup";
-
+<script lang="js">
+import { defineComponent } from 'vue';
 export default defineComponent({
     name: 'card-component',
     props: {
@@ -16,7 +15,6 @@ export default defineComponent({
             default: true
         },
         buttons:{
-            type: undefined,
             default: []
         }
     }
@@ -27,9 +25,10 @@ export default defineComponent({
     <div className="x-card" :style="{width: width}">
         <div v-if="title" class="x-card-header" :class="{'without-border': headerBordering}">
             <div>
-                <nuxt-link class="button-8 mx-1" role="button" :to="value.link" v-for="(value, index) in buttons" @click="value.onClick" :key="index">
+                <router-link class="button-8 mx-1" role="button" :to="value.link" v-for="(value, index) in buttons" @click="value.onClick" :key="index">
                     {{ value.title }}
-                </nuxt-link>
+                </router-link>
+                <slot name="buttons" />
             </div>
             <div>
                 <h5>
@@ -48,26 +47,28 @@ export default defineComponent({
     .x-card{
         background-color: #fff;
         border: 1px solid #e6ecf5;
-        margin: 5px 0;
+        margin: 2px 0;
         border-radius: 8px;
         overflow: hidden;
         font-family: vazir;
         box-shadow: 0px 4px 5px rgba($color: #000000, $alpha: 0.05);
         .x-card-header{
             border-bottom: 1px dotted #e6ecf5;
-            padding: 1px 10px;
+            padding: 10px 10px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             background-color: #f5f5f5;
+            direction: ltr;
             &.without-border{
                 border-bottom: none;
             }
             h5{
                 color: #3B566E;
                 position: relative;
-                top: 4px;
+                top: 1px;
                 right: 5px;
+                font-size: 15px;
             }
         }
         .x-card-body{
