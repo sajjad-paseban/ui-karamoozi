@@ -1,12 +1,12 @@
 <template>
     <div :class="group">
-        <router-link :class="btnClass" v-if="isLink" :to="path ? path : ''">
+        <router-link :disabled="disabled" :class="btnClass" v-if="isLink" :to="path ? path : ''">
             {{ title }}
             <span>
                 <slot />
             </span>
         </router-link>
-        <button :class="btnClass" v-if="!isLink">
+        <button :disabled="disabled" :class="btnClass" v-if="!isLink">
             {{ title }}
             <span>
                 <slot />
@@ -19,7 +19,7 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
     name: 'button-component',
-    props: ['group', 'btnClass', 'isLink', 'path', 'title']
+    props: ['group', 'btnClass', 'isLink', 'path', 'title', 'disabled']
 })
 </script>
 

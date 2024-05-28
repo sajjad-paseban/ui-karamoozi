@@ -47,6 +47,7 @@
             </div>
             <div class="form-group d-flex justify-content-center my-3">
                 <Button 
+                    :disabled="form.disableSubmitButton"
                     title="ثبت نام در سامانه کارآموزی"
                     group="alpha"
                     btn-class="btn btn-secondary"
@@ -62,6 +63,8 @@ import Button from '@/components/Button.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { defineComponent } from 'vue'
 import { RegisterFormSchema } from '@/forms/Schema'
+import { register } from '@/services/auth.service';
+import { Toast } from '@/helpers/Base';
 export default defineComponent({
     name: 'register-form',
     components: {
@@ -77,7 +80,8 @@ export default defineComponent({
                 params: {
                     national_code: null,
                     password: null
-                }
+                },
+                disableSubmitButton: false
             }
         }
     },
@@ -88,8 +92,23 @@ export default defineComponent({
             if(!(normalNumbers.includes(e.key) || persianNumbers.includes(e.key)))
                 e.preventDefault()
         },
-        handleSubmit(values: any, { resetForm }: any){
-            console.log(values)
+        async handleSubmit(values: any, { resetForm }: any){
+            this.form.disableSubmitButton = true
+            const res = await register(values);
+            Toast.fire({
+                text: res.data.message,
+                icon: res.status == 201 ? 'success' : 'error'
+            }).then(() => {
+                
+                if(res.status == 201)
+                Toast.fire({
+                    text: 'لینک فعال سازی حساب کاربری به پست الکرونیکی شما ارسال گردید',
+                    icon: 'success'
+                })
+            })
+            
+            resetForm()
+            this.form.disableSubmitButton = false
         }
     }
 })

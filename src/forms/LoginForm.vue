@@ -48,6 +48,9 @@ import Button from '@/components/Button.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { defineComponent } from 'vue'
 import { LoginFormSchema } from '@/forms/Schema'
+import { login } from '@/services/auth.service';
+import { Toast } from '@/helpers/Base';
+import useAuthStore from '@/store/auth-store';
 export default defineComponent({
     name: 'login-form',
     components: {
@@ -74,8 +77,24 @@ export default defineComponent({
             if(!(normalNumbers.includes(e.key) || persianNumbers.includes(e.key)))
                 e.preventDefault()
         },
-        handleSubmit(values: any, { resetForm }: any){
-            console.log(values)
+        async handleSubmit(values: any, { resetForm }: any){
+            const res = await login(values);
+            
+            if(res.data.code == 200){
+                
+                useAuthStore().set_auth(
+                    res.data.row.user_info.id, 
+                    res.data.row.token
+                )
+            }
+
+            Toast.fire({
+                text: res.data.message,
+                icon: res.status == 200 ? 'success' : 'warning'
+            }).then(() => {
+                this.$router.push('/panel')
+            })
+            
         }
     }
 })

@@ -10,8 +10,13 @@
   "dependencies": {
     "@chenfengyuan/vue-carousel": "^2.0.0",
     "@kalimahapps/vue-icons": "^1.4.0",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "primeicons": "^7.0.0",
+    "sweetalert2": "^11.11.0",
     "swiper": "^8.4.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",

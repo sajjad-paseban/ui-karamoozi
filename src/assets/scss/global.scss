@@ -8,6 +8,18 @@ body{
     background-color: #F5F5F5;
 }
 
+.swal2-container{
+    font-family: 'yekan';
+    direction: rtl;
+
+    .swal2-actions{
+        direction: ltr;
+        button{
+            font-family: 'yekan';
+        }
+    }
+}
+
 .form-group{
     text-align: right;
     label{
