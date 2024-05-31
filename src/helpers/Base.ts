@@ -40,3 +40,7 @@ export const useApi = axios.create(
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
 })
+
+export const get_back_base_url = () => {
+    return "http://localhost/uni-karamoozi-back/"
+}

@@ -7,7 +7,7 @@
                         <i class="pi pi-angle-down" v-show="!profileMenu.visibility"></i>
                         <i class="pi pi-angle-up" v-show="profileMenu.visibility"></i>
                         <span>
-                            سجاد پاسبان رضوی خراسانی
+                            {{ userStore.user.info.fullname ?? userStore.user.info.email }}
                         </span>
                     </div>
                     <div class="profile-sub-item" v-if="profileMenu.visibility">
@@ -63,26 +63,27 @@
         </div>
         <div class="right">
             <span>
-                دانشگاه فنی و حرفه ای منتظری - سامانه کارآموزی
+                {{ siteStore?.uni_name }} - سامانه کارآموزی
             </span>
             <i class="pi pi-microsoft" @click="showMenu" v-if="!menu.visibility"></i>
             <i class="pi pi-align-right" @click="showMenu" v-if="menu.visibility"></i>
         </div>
     </div>
-    {{ authStore.auth }}
 </template>
 
 
 <script lang="ts">
-import useAuthStore from '@/store/auth-store'
+import { useSiteStore } from '@/store/site-store'
+import useUserStore from '@/store/user-store'
 import { defineComponent } from 'vue'
 export default defineComponent({
     name: 'header-partial',
     setup(){
-        const authStore = useAuthStore()
-
+        const siteStore = useSiteStore().site
+        const userStore = useUserStore()
         return {
-            authStore
+            siteStore,
+            userStore
         }
     },
     data(){
@@ -91,7 +92,7 @@ export default defineComponent({
                 data: [
                     { name: 'ارسال تیکت', link: '/panel/ticket/', icon: 'pi pi-ticket' },
                     { name: 'رفتن به سامانه', link: '/', icon: 'pi pi-link' },
-                    { name: 'تغییر کلمه عبور', link: '/panel/password/change', icon: 'pi pi-lock' },
+                    { name: 'تغییر کلمه عبور', link: '/panel/change-password', icon: 'pi pi-lock' },
                     { name: 'مدیریت پروفایل', link: '/panel/profile/edit', icon: 'pi pi-user-edit' },
                     { name: 'خروج از سامانه کارآموزی', link: '/logout', icon: 'pi pi-sign-out' },
                 ],
@@ -124,7 +125,6 @@ export default defineComponent({
         display: flex;
         align-items: center;
         justify-content: space-between;
-        
         .left{
             ul{
                 display: flex;
@@ -142,15 +142,20 @@ export default defineComponent({
                         border-radius: 3px;
                         box-shadow: 0px 2px 2px rgba($color: #000000, $alpha: 0.2);
                         background-color: rgba($color: #e2e3e5, $alpha: 0.8);
+                        min-width: 220px;
                         padding: 10px;
                         color: rgba($color: #000000, $alpha: 0.6);
+                        text-align: right;
+                        position: relative;
                         span{
                             font-size: 14px;
                             margin: 0 5px;
+                            margin-left: 23px;
                         }
                         i{
-                            position: relative;
-                            top: 3.5px;
+                            position: absolute;
+                            top: 15px;
+                            left: 10px;
                         }
                     }
 

@@ -4,7 +4,9 @@
     </header>
     <div class="main">
         <div class="content">
-            1
+            <div class="container-fluid">
+                <router-view />
+            </div>
         </div>
         <div class="menu" ref="panelMenu">
             <menu-partial />
@@ -35,8 +37,10 @@ export default defineComponent({
     async mounted(){
         const res = await get_info(useAuthStore().auth)
         
-        if(res.status == 200)
+        if(res.status == 200){
+            useUserStore().clear_user()
             useUserStore().set_user(res.data.row)
+        }
     }
 
 })
@@ -46,15 +50,20 @@ export default defineComponent({
     .main{
         position: relative;
         .content{
-            background-color: red;
+            position: fixed;
+            top: 62px;
+            left: 0;
+            bottom: 0;
             width: calc(100% - 250px);
+            overflow-y: auto;
             transition: width 200ms;
+            font-family: 'vazir';
         }
         .menu{
             position: fixed;
             background-color: #495F75;
             right: 0;
-            top: 61px;
+            top: 62px;
             bottom: 0;
             width: 250px;
             transition: right 200ms;

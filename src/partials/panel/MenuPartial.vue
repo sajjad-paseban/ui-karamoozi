@@ -2,31 +2,42 @@
     <div class="menu-partial">
         <div class="user-info">
             <div class="user-info-img">
-                <img src="https://assets-global.website-files.com/640f87e014ca34b6e022b883/64ab3120c638067da1bccdbf_placeholder.jpg" alt="">
+                <img :src=" userStore.user.info.image_path ? get_back_base_url() + userStore.user.info.image_path : get_back_base_url() + 'storage/images/unknown_profile.jpg'" alt="">
             </div>
             <div class="user-info-name">
-                سجاد پاسبان رضوی خراسانی
+                {{ userStore.user.info.fullname ?? '-' }}
             </div>
-            <div class="user-info-uni-code">
+            <!-- <div class="user-info-uni-code">
                 ۹۸۱۱۱۰۵۵۳۰۲۰۰۳
-            </div>
+            </div> -->
             <div class="user-info-email">
-                s.pr98@yahoo.com
+                {{ userStore.user.info.email ?? '-' }}
             </div>
             <div class="user-info-code">
-                ۰۹۲۵۴۷۱۴۲۹
+                {{ userStore.user.info.nationalcode ? '0' + userStore.user.info.nationalcode : '-' }}
             </div>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { get_back_base_url } from "@/helpers/Base";
+import { useSiteStore } from "@/store/site-store";
+import useUserStore from "@/store/user-store";
 import { defineComponent } from "vue";
 
 export default defineComponent({
     name: 'menu-partial',
-    components:{
-
+    setup(){
+        const siteStore = useSiteStore().site
+        const userStore = useUserStore()
+        return {
+            siteStore,
+            userStore
+        }
+    },
+    methods: {
+        get_back_base_url
     }
 })
 </script>
@@ -61,7 +72,7 @@ export default defineComponent({
                 margin: 5px 0;
                 margin-bottom: 10px !important;
                 &::before{
-                    content: 'کد ملی:';
+                    content: 'کد ملی: ';
                 }
             }
 
@@ -70,7 +81,7 @@ export default defineComponent({
                 font-size: 13px;
                 margin: 5px 0;
                 &::before{
-                    content: 'شماره دانشگاهی:';
+                    content: 'شماره دانشگاهی: ';
                 }
             }
 
@@ -80,7 +91,7 @@ export default defineComponent({
                 font-size: 13px;
                 margin: 5px 0;
                 &::before{
-                    content: 'ایمیل:';
+                    content: 'ایمیل: ';
                 }
             }
         }

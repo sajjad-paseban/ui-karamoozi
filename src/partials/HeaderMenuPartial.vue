@@ -39,7 +39,6 @@ export default defineComponent({
         }
     },
     mounted(){
-        console.log(this.$route.name)
         this.route = menu_switch((this.$route.name as string));
     }
 })

@@ -3,8 +3,9 @@
         <div class="footer-top">
             <div class="left-side">
                 <logo 
-                    title="دانشگاه فنی و حرفه ای مشهد"
+                    :title="siteStore?.uni_name"
                     is-light="true"
+                    :path="get_back_base_url() + siteStore?.uni_logo_path"
                 />
             </div>
             <nav>
@@ -37,7 +38,7 @@
         </div>
         <div class="footer-bottom">
             <p>
-                @ تمامی حقوق مادی و معنوی سایت متعلق به دانشگاه فنی و حرفه ای منتظری مشهد می باشد.
+                @ {{ siteStore?.footer_description }}.
             </p>
         </div>
     </footer>
@@ -45,10 +46,21 @@
 
 <script lang="ts">
 import Logo from '@/components/Logo.vue'
+import { get_back_base_url } from '@/helpers/Base'
+import { useSiteStore } from '@/store/site-store'
 import Vue, { defineComponent, watch } from 'vue'
 export default defineComponent({
     name: 'footer-partial',  
-    components: { Logo }
+    components: { Logo },
+    setup(){
+        const siteStore = useSiteStore().site
+        return {
+            siteStore
+        }
+    },
+    methods: {
+        get_back_base_url
+    }
 })
 </script>
 

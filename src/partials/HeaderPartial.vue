@@ -14,8 +14,9 @@
         <nav>
             <header-menu-partial />
             <logo 
-                title="دانشگاه فنی و حرفه ای مشهد"
+                :title="siteStore.uni_name"
                 :isLight="true" 
+                :path="get_back_base_url() + siteStore.uni_logo_path"
                 />
    
         </nav>
@@ -28,9 +29,20 @@ import { defineComponent } from "vue";
 import HeaderMenuPartial from "./HeaderMenuPartial.vue";
 import Button from "@/components/Button.vue";
 import { FeLogIn } from "@kalimahapps/vue-icons";
+import { useSiteStore } from "@/store/site-store";
+import { get_back_base_url } from "@/helpers/Base";
 export default defineComponent({
     components: { Logo, HeaderMenuPartial, Button, FeLogIn },
     name: 'header-partial',
+    setup(){
+        const siteStore = useSiteStore().site
+        return {
+            siteStore
+        }
+    },
+    methods: {
+        get_back_base_url
+    }
 })
 </script>
 

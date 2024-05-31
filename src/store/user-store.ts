@@ -17,6 +17,8 @@ const useUserStore = defineStore('user-store', () => {
         set_user,
         clear_user
     }
+}, {
+    persist: true
 })
 
 export default useUserStore;
