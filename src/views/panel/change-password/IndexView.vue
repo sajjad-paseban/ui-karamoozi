@@ -5,5 +5,10 @@
                 تغییر کلمه عبور
             </h1>
         </div>
+        <div class="col-auto">
+            <router-link class="btn btn-sencodary">
+                تیکت جدید
+            </router-link>
+        </div>
     </div>
 </template>

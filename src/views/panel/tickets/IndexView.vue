@@ -1,9 +1,14 @@
 <template>
-    <div class="row justify-content-end p-2">
+    <div class="row justify-content-between flex-row-reverse p-2 align-items-center border-bottom">
         <div class="col-auto">
             <h1 class="text-secondary">
                 ارسال تیکت
             </h1>
+        </div>
+        <div class="col-auto">  
+            <button class="btn btn-primary btn-sm shadow-sm">
+                تیکت جدید
+            </button>
         </div>
     </div>
 </template>
