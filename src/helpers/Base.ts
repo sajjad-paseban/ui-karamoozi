@@ -1,3 +1,4 @@
+import useAuthStore from "@/store/auth-store"
 import axios from "axios"
 import Swal, { SweetAlertIcon } from "sweetalert2"
 export function handleNumber(e: any){
@@ -41,6 +42,14 @@ export const useApi = axios.create(
     }
 })
 
-export const get_back_base_url = () => {
-    return "http://localhost/uni-karamoozi-back/"
+export const get_back_base_url = () => "http://localhost/uni-karamoozi-back/"
+
+export const connectTokenWithData = (data: any) => Object.assign(data, useAuthStore().auth)
+
+export const customErrorMessage = (fieldName: string, props: any = null) => {
+    return {
+        required: `فیلد ${fieldName} اجباری می باشد`,
+        email: `${fieldName} نا معتبر می باشد`,
+        length: `فیلد ${fieldName} می بایست ${props?.length} رقمی باشد`
+    }   
 }

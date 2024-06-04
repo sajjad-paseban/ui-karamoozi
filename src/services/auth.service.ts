@@ -1,4 +1,4 @@
-import { useApi } from "@/helpers/Base"
+import { connectTokenWithData, useApi } from "@/helpers/Base"
 
 export const register = async (data: any) =>{
     try{
@@ -46,7 +46,7 @@ export const check_auth_expiration = async (data: any) =>{
 
 export const change_password = async (data: any) =>{
     try{
-        const result = await useApi.post('auth.php?method=change_password', JSON.stringify(data))
+        const result = await useApi.post('auth.php?method=change-password', JSON.stringify(connectTokenWithData(data)))
         
         return result
 

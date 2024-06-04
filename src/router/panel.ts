@@ -15,6 +15,16 @@ const PanelRoute: RouteRecordRaw[] = [
         path: 'change-password',
         name: 'change-password',
         component: () => import('@/views/panel/change-password/IndexView.vue')        
+    },
+    {
+        path: 'profile-management',
+        name: 'profile-management',
+        component: () => import('@/views/panel/profile/IndexView.vue')        
+    },
+    {
+        path: 'base-tables-management',
+        name: 'base-tables-management',
+        component: () => import('@/views/panel/base-tables-manager/IndexView.vue')        
     }
 ]
 

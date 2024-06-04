@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
 const useUserStore = defineStore('user-store', () => {
-    const user = ref(null)
+    const user = ref<any>(null)
 
     const set_user = (data: any)=>{
         user.value = data

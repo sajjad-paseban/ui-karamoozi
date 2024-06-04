@@ -6,9 +6,9 @@
             </h1>
         </div>
         <div class="col-auto">  
-            <button class="btn btn-primary btn-sm shadow-sm">
+            <router-link class="btn btn-primary btn-sm shadow-sm">
                 تیکت جدید
-            </button>
+            </router-link>
         </div>
     </div>
 </template>

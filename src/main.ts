@@ -23,6 +23,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // })
 // vuetify config
 
+import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.css'
 import '@/assets/scss/global.scss'
 import 'primeicons/primeicons.css'
