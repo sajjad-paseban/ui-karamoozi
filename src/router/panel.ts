@@ -24,7 +24,7 @@ const PanelRoute: RouteRecordRaw[] = [
     {
         path: 'base-tables-management',
         name: 'base-tables-management',
-        component: () => import('@/views/panel/base-tables-manager/IndexView.vue')        
+        component: () => import('@/views/panel/base-tables-manager/IndexView.vue'),
     }
 ]
 

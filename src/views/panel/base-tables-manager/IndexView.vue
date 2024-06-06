@@ -40,6 +40,12 @@
 <script lang="ts">
 
 import SiteBaseInformationFormVue from "@/forms/panel/base-tables-management/SiteBaseInformationForm.vue";
+import MenuTemplate from '@/views/panel/menu-management/MenuTemplate.vue';
+import RoleTemplate from '@/views/panel/role-management/RoleTemplate.vue';
+import ProvinceTemplate from '@/views/panel/province-management/ProvinceTemplate.vue';
+import CityTemplate from '@/views/panel/city-management/CityTemplate.vue';
+import DegreeTemplate from '@/views/panel/degree-management/DegreeTemplate.vue';
+import ColorTemplate from "@/views/panel/color-management/ColorTemplate.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -48,23 +54,34 @@ export default defineComponent({
         return {
             currentNav: 0,
             forms: {
-                'site-base-information-form': SiteBaseInformationFormVue
+                'site-base-information-form': SiteBaseInformationFormVue,
+                'menu-template': MenuTemplate,
+                'role-template': RoleTemplate,
+                'province-template': ProvinceTemplate,
+                'city-template': CityTemplate,
+                'degree-template': DegreeTemplate,
+                'color-template': ColorTemplate,
             },
             navs: [
                 {
                     title: 'مدیریت اطلاعات پایه سایت',
-                    component: 'user-inforamtion-form',
+                    component: 'site-base-information-form',
                     icon: 'pi pi-database'
                 },
                 {
                     title: 'مدیریت منوها',
-                    component: 'user-inforamtion-form',
+                    component: 'menu-template',
                     icon: 'pi pi-bars'
                 },
                 {
                     title: 'مدیریت نقش ها',
-                    component: 'profile-picture-form',
+                    component: 'role-template',
                     icon: 'pi pi-shield'
+                },
+                {
+                    title: 'مدیریت کاربران',
+                    component: 'role-template',
+                    icon: 'pi pi-user'
                 },
                 {
                     title: 'مدیریت نقش ها و کاربران',
@@ -78,27 +95,22 @@ export default defineComponent({
                 },
                 {
                     title: 'مدیریت استان ها',
-                    component: 'profile-picture-form',
+                    component: 'province-template',
                     icon: 'pi pi-map-marker'
                 },
                 {
                     title: 'مدیریت شهرها',
-                    component: 'profile-picture-form',
+                    component: 'city-template',
                     icon: 'pi pi-sitemap'
                 },
                 {
                     title: 'مدیریت مدارک',
-                    component: 'profile-picture-form',
+                    component: 'degree-template',
                     icon: 'pi pi-verified'
                 },
                 {
-                    title: 'مدیریت نوع درس',
-                    component: 'profile-picture-form',
-                    icon: 'pi pi-book'
-                },
-                {
                     title: 'مدیریت رنگ ها',
-                    component: 'profile-picture-form',
+                    component: 'color-template',
                     icon: 'pi pi-palette'
                 },
 

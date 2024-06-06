@@ -28,6 +28,12 @@ body{
     background-color: #F5F5F5;
 }
 
+.tab-content{
+    .active{
+        outline: none !important;
+    }
+}
+
 .swal2-container{
     font-family: 'yekan';
     direction: rtl;

@@ -30,7 +30,7 @@
                 <label for="nationalcode">
                     کد ملی
                 </label>
-                <Field type="text" v-model="form.params.nationalcode" disabled name="nationalcode" @keyup="handleNumber"
+                <Field type="text" v-model="form.params.nationalcode" disabled name="nationalcode" @keypress="handleNumber"
                     id="nationalcode" class="form-control form-control-sm" />
                 <ErrorMessage name="nationalcode" />
             </div>
@@ -38,7 +38,7 @@
                 <label for="phone">
                     شماره همراه
                 </label>
-                <Field type="text" v-model="form.params.phone" name="phone" @keyup="handleNumber" id="phone"
+                <Field type="text" v-model="form.params.phone" name="phone" @keypress="handleNumber" id="phone"
                     class="form-control form-control-sm" />
                 <ErrorMessage name="phone" />
             </div>

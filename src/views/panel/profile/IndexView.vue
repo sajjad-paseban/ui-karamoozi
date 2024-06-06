@@ -75,12 +75,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-button {
-    svg {
-        font-size: 20px;
-        position: relative;
-        top: 5.5px;
-        left: 4px;
+.nav-tabs {
+    button {
+        color: rgba($color: #000000, $alpha: 0.4);
+        font-size: 14px;
+
+        i {
+            font-size: 14px;
+            position: relative;
+            top: 2.5px;
+            left: 4px;
+        }
+
+        svg {
+            font-size: 14px;
+            position: relative;
+            top: 2.5px;
+            left: 4px;
+        }
     }
 }
 </style>

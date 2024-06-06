@@ -86,7 +86,7 @@ export const SiteBaseInformationFormSchema = yup.object({
     .string()
     .required(customErrorMessage('نام  دانشگاه').required),
 
-    uni_logo_path: yup
+    uni_logo: yup
     .string()
     .required(customErrorMessage('لوگو دانشگاه').required),
 
@@ -94,25 +94,34 @@ export const SiteBaseInformationFormSchema = yup.object({
     .string()
     .required(customErrorMessage('توضیحات پا صفحه').required),
 
-    location: yup
-    .string()
+    lat: yup
+    .number()
+    .typeError("لطفا عدد وارد نمایید")
+    .required(customErrorMessage('موقعیت دانشگاه').required),
+    
+    long: yup
+    .number()
+    .typeError("لطفا عدد وارد نمایید")
     .required(customErrorMessage('موقعیت دانشگاه').required),
 
     telephone: yup
     .string()
+    .length(11, customErrorMessage('شماره تماس', { length: 11 }).length)
     .required(customErrorMessage('شماره تماس').required),
 
     email: yup
     .string()
-    .required(customErrorMessage('پست الکترونیکی').required),
+    .email(customErrorMessage('پست الکترونیکی دانشگاه').email)
+    .required(customErrorMessage('پست الکترونیکی دانشگاه').required),
     
     fax: yup
     .string()
+    .length(11, customErrorMessage('شماره فکس', { length: 11 }).length)
     .required(customErrorMessage('شماره فکس').required),
     
     address: yup
     .string()
-    .required(customErrorMessage('آدرس').required),
+    .required(customErrorMessage('آدرس دانشگاه').required),
 
     description: yup
     .string()
@@ -122,7 +131,65 @@ export const SiteBaseInformationFormSchema = yup.object({
     .string()
     .required(customErrorMessage('قوانین ثبت نام').required),
 
-    status: yup
+})
+
+export const MenuFormSchema = yup.object({
+    title: yup
     .string()
-    .required(customErrorMessage('آیا سایت فعال است؟').required),
+    .required(customErrorMessage('عنوان').required),
+
+    path: yup
+    .string()
+    .required(customErrorMessage('مسیر').required),
+
+    key_param: yup
+    .string()
+    .required(customErrorMessage('کلید').required),
+
+    logo: yup
+    .string()
+    .required(customErrorMessage('لوگو').required),
+    
+    parent_id: yup
+    .string()
+    .required(customErrorMessage('والد').required),
+
+})
+
+export const RoleFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+})
+
+export const DegreeFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+})
+
+export const ProvinceFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+})
+
+export const CityFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+
+    province_id: yup
+    .number()
+    .required(customErrorMessage('استان').required),
+})
+
+export const ColorFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+
+    color: yup
+    .string()
+    .required(customErrorMessage('کد رنگی').required),
 })
