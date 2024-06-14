@@ -1,6 +1,24 @@
 <template>
     <div class="menu-partial">
         <div class="user-info">
+            <div class="user-roles">
+                <div class="role-preview" @click="role.visibility = !role.visibility">
+                    <i class="pi pi-angle-down"></i>
+                    <span>{{ role.selectedRole.role.title }}</span>
+                </div>
+                <ul class="role-list" v-if="role.visibility">
+                    <li v-for="(item, key) in role.list" :key="key" @click="handleRoleSelection(key)"
+                        :class="{ 'justify-content-between': item.default_role == true, 'selected': role.currentRole == key }">
+                        <i class="pi pi-verified" v-if="item.default_role == true"></i>
+                        <div>
+                            <span>
+                                {{ item.role.title }}
+                            </span>
+                            <i class="pi pi-user"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             <div class="user-info-img">
                 <img :src="userStore.user.info.image_path ? get_back_base_url() + userStore.user.info.image_path : get_back_base_url() + 'storage/images/unknown_profile.jpg'"
                     alt="">
@@ -44,8 +62,10 @@
 
 <script lang="ts">
 import { get_back_base_url } from "@/helpers/Base";
+import { get_user_roles } from "@/services/users_roles.service";
 import { useSiteStore } from "@/store/site-store";
 import useUserStore from "@/store/user-store";
+import useRoleStore from "@/store/role-store"
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -53,13 +73,42 @@ export default defineComponent({
     setup() {
         const siteStore = useSiteStore().site
         const userStore = useUserStore()
+        const roleStore = useRoleStore()
         return {
             siteStore,
-            userStore
+            userStore,
+            roleStore
         }
     },
     methods: {
-        get_back_base_url
+        get_back_base_url,
+        handleRoleSelection(key: number) {
+            this.role.currentRole = key
+            this.role.selectedRole = this.role.list[key]
+
+            this.roleStore.set_role(this.role.selectedRole)
+
+            this.role.visibility = false
+        }
+    },
+    data() {
+        return {
+            role: {
+                visibility: false,
+                list: [],
+                currentRole: -1,
+                selectedRole: null,
+            }
+        }
+    },
+    async mounted() {
+        const roles = await get_user_roles()
+        this.role.list = roles.data.row
+        this.role.currentRole = this.role.list.findIndex((item: any) => item.default_role == true)
+        this.role.selectedRole = this.role.list[this.role.currentRole]
+
+        this.roleStore.set_role(this.role.selectedRole)
+
     }
 })
 </script>
@@ -72,6 +121,71 @@ export default defineComponent({
         border: 2.5px solid rgba($color: #fff, $alpha: 0.9);
         margin: 14px 10px;
         border-radius: 10px;
+
+        .user-roles {
+            position: relative;
+            cursor: pointer;
+
+            .role-preview {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 12px;
+                border: 2.5px solid rgba($color: #fff, $alpha: 0.9);
+                padding: 5px 8px;
+                margin: 10px;
+                border-radius: 5px;
+                user-select: none;
+            }
+
+            .role-list {
+                background-color: #fff;
+                padding: 0;
+                margin: 10px;
+                position: absolute;
+                top: 30px;
+                left: 0;
+                right: 0;
+                list-style: none;
+                border-radius: 2.5px;
+                color: rgba($color: #000000, $alpha: 0.5);
+                font-size: 14px;
+                user-select: none;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: end;
+                    padding: 10px 15px;
+                    margin: 0;
+                    transition: color 100ms, background-color 100ms, font-size 100ms;
+                    border-bottom: 0.5px solid rgba($color: #000000, $alpha: 0.1);
+
+                    &.selected {
+                        color: #2196F3;
+                    }
+
+                    span {
+                        margin-right: 5px;
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    &:hover {
+                        span {
+                            font-size: 15px;
+                        }
+
+                        background-color: rgba($color: #000000, $alpha: 0.1);
+                        color: rgba($color: #000000, $alpha: 0.8);
+                    }
+
+                }
+            }
+        }
 
         .user-info-img {
             margin: 15px 0;

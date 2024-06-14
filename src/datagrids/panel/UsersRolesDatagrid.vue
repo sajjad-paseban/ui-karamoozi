@@ -1,31 +1,19 @@
 <template>
-    <div class="panel-menu-datagrid">
+    <div class="panel-users-roles-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-menu-datagrid">
+            ref="panel-users-roles-datagrid">
 
-            <template #table-row="props">
-                <div v-if="props.column.field == 'actions'">
+            <!-- <template #table-row="props"> -->
+            <!-- <div v-if="props.column.field == 'actions'">
                     <div class="d-flex justify-content-center">
                         <button @click="editRow(props.row.id)"
                             class="btn btn-warning btn-sm mx-1 d-flex align-items-center">
                             <i class="pi pi-file-edit"></i>
                         </button>
                     </div>
-                </div>
-                <div v-else-if="props.column.field == 'logo'">
-                    <i :class="props.row.logo"></i>
-                </div>
-                <div v-else-if="props.column.field == 'status'">
-                    {{ props.row.status == 1 ? 'فعال' : 'غیر فعال' }}
-                </div>
-                <div v-else-if="props.column.field == 'parent_id'">
-                    {{ props.row.parent_id == -1 ? 'بدون والد' : props.row.parent.title }}
-                </div>
-                <div v-else>
-                    {{ props.formattedRow[props.column.field] }}
-                </div>
-            </template>
+                </div> -->
+            <!-- </template> -->
 
             <template #selected-row-actions>
                 <Button title="حذف" group="alpha" btn-class="btn btn-gray" class="mb-1" @click="deleteAction" />
@@ -47,11 +35,11 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_menu, get_data } from '@/services/menu.service'
+import { delete_users_roles, get_data } from '@/services/users_roles.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 
 export default defineComponent({
-    name: 'panel-menu-datagrid',
+    name: 'panel-users-roles-datagrid',
     components: {
         VueGoodTable,
         Button,
@@ -62,7 +50,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-menu-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-users-roles-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -71,7 +59,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_menu(ids)
+                    const result = await delete_users_roles(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -88,37 +76,24 @@ export default defineComponent({
             if (row.status == 0) {
                 return 'bg-danger text-white';
             }
-
             return 'bg-success text-white';
+
         },
     },
     data() {
         return {
             columns: [
                 {
-                    label: 'عنوان',
-                    field: 'title',
+                    label: 'کاربر',
+                    field: 'user.fullname',
                 },
                 {
-                    label: 'مسیر',
-                    field: 'path',
-                    tdClass: 'ltr'
+                    label: 'کد ملی کاربر',
+                    field: 'user.nationalcode',
                 },
                 {
-                    label: 'کلید',
-                    field: 'key_param',
-                },
-                {
-                    label: 'آیکون',
-                    field: 'logo',
-                },
-                {
-                    label: 'والد',
-                    field: 'parent_id',
-                },
-                {
-                    label: 'الویت',
-                    field: 'priority',
+                    label: 'نقش',
+                    field: 'role.title',
                 },
                 {
                     label: 'وضعیت',
@@ -126,17 +101,18 @@ export default defineComponent({
                     tdClass: this.tdClassFunc,
 
                 },
-                {
-                    label: 'عملیات',
-                    field: 'actions',
-                },
+                // {
+                //     label: 'عملیات',
+                //     field: 'actions',
+                // },
 
             ],
             rows: [],
             options: {
                 search: {
                     enabled: true,
-                    placeholder: 'جست و جو کنید'
+                    placeholder: 'جست و جو کنید',
+
                 },
                 select: {
                     enabled: true,
@@ -171,14 +147,20 @@ export default defineComponent({
     },
     async mounted() {
         const res = await get_data()
-        if (res.status == 200)
-            this.rows = res.data.row.menu_list
+        if (res.status == 200) {
+            this.rows = res.data.row.users_roles_list
+            this.rows.map(item => {
+                (item as any).user.fullname = (item as any).user.fname + ' ' + (item as any).user.lname;
+                (item as any).user.nationalcode = '0' + (item as any).user.nationalcode;
+                (item as any).status = (item as any).status ? 'فعال' : 'غیر فعال'
+            })
+        }
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.panel-menu-datagrid {
+.panel-role-datagrid {
     p.empty-state {
         text-align: center;
     }

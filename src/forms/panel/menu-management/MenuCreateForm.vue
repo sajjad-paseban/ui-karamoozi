@@ -49,6 +49,15 @@
                 <ErrorMessage name="parent_id" />
             </div>
 
+            <div class="form-group mx-1">
+                <label for="priority">
+                    الویت
+                </label>
+                <Field type="text" @keypress="handleNumber" name="priority" v-model="form.params.priority" id="priority"
+                    class="form-control form-control-sm" />
+                <ErrorMessage name="priority" />
+            </div>
+
         </div>
         <div class="d-flex">
             <div class="form-group w-100 m-1">
@@ -95,6 +104,7 @@ export default defineComponent({
                     key_param: null,
                     logo: null,
                     parent_id: null,
+                    priority: 0,
                     status: true,
                 }
             },

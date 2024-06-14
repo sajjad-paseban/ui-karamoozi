@@ -42,6 +42,9 @@
 import SiteBaseInformationFormVue from "@/forms/panel/base-tables-management/SiteBaseInformationForm.vue";
 import MenuTemplate from '@/views/panel/menu-management/MenuTemplate.vue';
 import RoleTemplate from '@/views/panel/role-management/RoleTemplate.vue';
+import UserTemplate from '@/views/panel/user-management/UserTemplate.vue';
+import UsersRolesTemplate from '@/views/panel/users_roles-management/UsersRolesTemplate.vue';
+import AccessTemplate from "../access-management/AccessTemplate.vue";
 import ProvinceTemplate from '@/views/panel/province-management/ProvinceTemplate.vue';
 import CityTemplate from '@/views/panel/city-management/CityTemplate.vue';
 import DegreeTemplate from '@/views/panel/degree-management/DegreeTemplate.vue';
@@ -57,6 +60,9 @@ export default defineComponent({
                 'site-base-information-form': SiteBaseInformationFormVue,
                 'menu-template': MenuTemplate,
                 'role-template': RoleTemplate,
+                'user-template': UserTemplate,
+                'users-roles-template': UsersRolesTemplate,
+                'access-template': AccessTemplate,
                 'province-template': ProvinceTemplate,
                 'city-template': CityTemplate,
                 'degree-template': DegreeTemplate,
@@ -80,17 +86,17 @@ export default defineComponent({
                 },
                 {
                     title: 'مدیریت کاربران',
-                    component: 'role-template',
+                    component: 'user-template',
                     icon: 'pi pi-user'
                 },
                 {
                     title: 'مدیریت نقش ها و کاربران',
-                    component: 'profile-picture-form',
+                    component: 'users-roles-template',
                     icon: 'pi pi-address-book'
                 },
                 {
                     title: 'مدیریت دسترسی ها',
-                    component: 'profile-picture-form',
+                    component: 'access-template',
                     icon: 'pi pi-users'
                 },
                 {

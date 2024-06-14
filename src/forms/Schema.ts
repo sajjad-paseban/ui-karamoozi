@@ -75,6 +75,13 @@ export const UserInformationFormSchema = yup.object({
 
 })
 
+export const DefaultRoleFormSchema = yup.object({
+    role_id: yup
+    .string()
+    .required(customErrorMessage('نقش').required),
+
+})
+
 export const ProfilePictureFormSchema = yup.object({
     image: yup
     .string()
@@ -154,6 +161,10 @@ export const MenuFormSchema = yup.object({
     .string()
     .required(customErrorMessage('والد').required),
 
+    priority: yup
+    .string()
+    .required(customErrorMessage('الویت').required),
+
 })
 
 export const RoleFormSchema = yup.object({
@@ -192,4 +203,66 @@ export const ColorFormSchema = yup.object({
     color: yup
     .string()
     .required(customErrorMessage('کد رنگی').required),
+})
+
+export const UserFormSchema = yup.object({
+    nationalcode: yup
+    .string()
+    .length(10, customErrorMessage('کد ملی', { length: 10 }).length)
+    .required(customErrorMessage('کد ملی').required),
+    
+    phone: yup
+    .string()
+    .length(11, customErrorMessage('شماره همراه', { length: 11 }).length)
+    .required(customErrorMessage('شماره همراه').required),
+
+    email: yup
+    .string()
+    .required(customErrorMessage('پست اکترونیکی').required)
+    .email(customErrorMessage('پست اکترونیکی').email),
+
+    password: yup
+    .string()
+    .min(8, 'کلمه عبور می بایست حداکثر 8 رقمی باشد')
+    .required('فیلد کلمه عبور اجباری می باشد'),
+
+})
+
+export const UsersRolesFormSchema = yup.object({ 
+    user_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('کاربر').required),
+
+    role_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('نقش').required)
+
+})
+
+export const AccessRolesFormSchema = yup.object({ 
+    role_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('نقش').required),
+
+    menu_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('منو').required)
+
+})
+
+export const AccessUsersFormSchema = yup.object({ 
+    user_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('کاربر').required),
+
+    menu_id: yup
+    .number()
+    .typeError("لطفا یک گزینه را انتخاب نمایید")
+    .required(customErrorMessage('منو').required)
+
 })

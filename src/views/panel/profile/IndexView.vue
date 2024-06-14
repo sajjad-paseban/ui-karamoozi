@@ -39,9 +39,10 @@
 
 <script lang="js">
 import { defineComponent } from "vue";
-import { GlProfile, AnFilledPicture } from "@kalimahapps/vue-icons";
+import { GlProfile, AnFilledPicture, CaUserRole } from "@kalimahapps/vue-icons";
 import ProfilePictureForm from "@/forms/panel/ProfilePictureForm.vue";
 import UserInformationForm from "@/forms/panel/UserInformationForm.vue";
+import DefaultRoleForm from '@/forms/panel/DefaultRoleForm.vue'
 export default defineComponent({
     name: 'index-view',
     data() {
@@ -49,17 +50,24 @@ export default defineComponent({
             currentNav: 0,
             forms: {
                 'user-inforamtion-form': UserInformationForm,
-                'profile-picture-form': ProfilePictureForm
+                'default-role-form': DefaultRoleForm,
+                'profile-picture-form': ProfilePictureForm,
             },
             icons: {
                 'profile': GlProfile,
-                'profile-pic': AnFilledPicture
+                'role': CaUserRole,
+                'profile-pic': AnFilledPicture,
             },
             navs: [
                 {
                     title: 'مشخصات کاربر',
                     component: 'user-inforamtion-form',
                     icon: 'profile'
+                },
+                {
+                    title: 'نقش پیشفرض',
+                    component: 'default-role-form',
+                    icon: 'role'
                 },
                 {
                     title: 'تصویر پروفایل',

@@ -45,7 +45,12 @@ body{
         }
     }
 }
-
+.ltr{
+    direction: ltr;
+}
+.rtl{
+    direction: rtl;
+}
 .form-group{
     text-align: right;
     label{

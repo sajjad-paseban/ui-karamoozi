@@ -1,8 +1,8 @@
 <template>
-    <div class="panel-menu-datagrid">
+    <div class="panel-user-access-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-menu-datagrid">
+            ref="panel-user-access-datagrid">
 
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
@@ -13,14 +13,8 @@
                         </button>
                     </div>
                 </div>
-                <div v-else-if="props.column.field == 'logo'">
-                    <i :class="props.row.logo"></i>
-                </div>
                 <div v-else-if="props.column.field == 'status'">
                     {{ props.row.status == 1 ? 'فعال' : 'غیر فعال' }}
-                </div>
-                <div v-else-if="props.column.field == 'parent_id'">
-                    {{ props.row.parent_id == -1 ? 'بدون والد' : props.row.parent.title }}
                 </div>
                 <div v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -47,11 +41,11 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_menu, get_data } from '@/services/menu.service'
+import { delete_user_access, get_data } from '@/services/users_access.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 
 export default defineComponent({
-    name: 'panel-menu-datagrid',
+    name: 'panel-user-access-datagrid',
     components: {
         VueGoodTable,
         Button,
@@ -62,7 +56,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-menu-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-user-access-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -71,7 +65,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_menu(ids)
+                    const result = await delete_user_access(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -82,7 +76,7 @@ export default defineComponent({
 
         },
         editRow: function (id: number) {
-            this.$emit('get-page-data', { page: 2, id: id })
+            this.$emit('get-page-data', { page: 2, section: 1, id: id })
         },
         tdClassFunc(row: any) {
             if (row.status == 0) {
@@ -96,29 +90,12 @@ export default defineComponent({
         return {
             columns: [
                 {
-                    label: 'عنوان',
-                    field: 'title',
+                    label: 'کاربر',
+                    field: 'user.fullname_nationalcode',
                 },
                 {
-                    label: 'مسیر',
-                    field: 'path',
-                    tdClass: 'ltr'
-                },
-                {
-                    label: 'کلید',
-                    field: 'key_param',
-                },
-                {
-                    label: 'آیکون',
-                    field: 'logo',
-                },
-                {
-                    label: 'والد',
-                    field: 'parent_id',
-                },
-                {
-                    label: 'الویت',
-                    field: 'priority',
+                    label: 'منو',
+                    field: 'menu.title',
                 },
                 {
                     label: 'وضعیت',
@@ -171,14 +148,18 @@ export default defineComponent({
     },
     async mounted() {
         const res = await get_data()
-        if (res.status == 200)
-            this.rows = res.data.row.menu_list
+        if (res.status == 200) {
+            this.rows = res.data.row.user_access_list
+            this.rows.map(item => {
+                (item as any).user.fullname_nationalcode = (item as any).user.fname + ' ' + (item as any).user.lname + ' (' + '0' + (item as any).user.nationalcode + ')';
+            })
+        }
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.panel-menu-datagrid {
+.panel-user-access-datagrid {
     p.empty-state {
         text-align: center;
     }
