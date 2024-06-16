@@ -1,5 +1,6 @@
 import useAuthStore from '@/store/auth-store';
 import { connectTokenWithData, useApi } from "@/helpers/Base"
+import useRoleStore from '@/store/role-store';
 
 export const get_info = async (data: any) =>{
     try{
@@ -113,6 +114,17 @@ export const update_user = async (data: any ,id: number) =>{
 export const reset_password = async (user_id: number) =>{
     try{
         const result = await useApi.post('user.php?method=reset-password', connectTokenWithData({ id: user_id }))
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
+export const get_user_access = async () =>{
+    try{
+        const result = await useApi.post('user.php?method=get-user-access', connectTokenWithData({ role_id: useRoleStore().role?.role_id }))
         
         return result
 

@@ -43,16 +43,11 @@
                 </span>
             </div>
             <ul>
-                <li>
-                    <router-link :to="{ name: 'panel' }">
-                        داشبورد
-                        <i class="pi pi-gauge"></i>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'base-tables-management' }">
-                        مدیریت جداول پایه
-                        <i class="pi pi-cog"></i>
+                <li v-for="(item, key) in access" :key="key">
+                    <router-link :to="{ name: item.menu.key_param }">
+                        {{ item.menu.title }}
+                        <!-- {{ item.menu }} -->
+                        <i :class="item.menu.logo"></i>
                     </router-link>
                 </li>
             </ul>
@@ -67,6 +62,7 @@ import { useSiteStore } from "@/store/site-store";
 import useUserStore from "@/store/user-store";
 import useRoleStore from "@/store/role-store"
 import { defineComponent } from "vue";
+import { get_user_access } from "@/services/user.service";
 
 export default defineComponent({
     name: 'menu-partial',
@@ -82,12 +78,15 @@ export default defineComponent({
     },
     methods: {
         get_back_base_url,
-        handleRoleSelection(key: number) {
+        async handleRoleSelection(key: number) {
             this.role.currentRole = key
             this.role.selectedRole = this.role.list[key]
 
             this.roleStore.set_role(this.role.selectedRole)
 
+            const user_access = await get_user_access()
+
+            this.access = user_access.data.row
             this.role.visibility = false
         }
     },
@@ -98,7 +97,8 @@ export default defineComponent({
                 list: [],
                 currentRole: -1,
                 selectedRole: null,
-            }
+            },
+            access: null
         }
     },
     async mounted() {
@@ -109,6 +109,8 @@ export default defineComponent({
 
         this.roleStore.set_role(this.role.selectedRole)
 
+        const user_access = await get_user_access()
+        this.access = user_access.data.row
     }
 })
 </script>
