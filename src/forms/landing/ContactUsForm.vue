@@ -1,9 +1,6 @@
 <template>
     <div class="contact-us-form p-3">
-        <Form
-            :validation-schema="form.ContactUsFormSchema"
-            @submit="handleSubmit"
-        >
+        <Form :validation-schema="form.ContactUsFormSchema" @submit="handleSubmit">
             <div class="row justify-content-start">
                 <div class="col-auto">
                     <div class="form-group">
@@ -37,19 +34,15 @@
                         <label for="description">
                             توضیحات
                         </label>
-                        <Field as="textarea" v-model="form.params.description" class="form-control form-control-sm" name="description" id="description" />
+                        <Field as="textarea" v-model="form.params.description" class="form-control form-control-sm"
+                            name="description" id="description" />
                         <ErrorMessage name="description" />
                     </div>
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-auto d-flex">
-                    <Button
-                        title="ثبت"
-                        group="alpha"
-                        btn-class="btn btn-secondary"
-                        type="submit"
-                    />
+                    <Button title="ثبت" group="alpha" btn-class="btn btn-secondary" type="submit" />
                 </div>
             </div>
         </Form>
@@ -69,11 +62,11 @@ export default defineComponent({
         ErrorMessage,
         Button
     },
-    data(){
+    data() {
         return {
             form: {
                 ContactUsFormSchema,
-                params:{
+                params: {
                     name: null,
                     title: null,
                     email: null,
@@ -83,7 +76,7 @@ export default defineComponent({
         }
     },
     methods: {
-        handleSubmit(values: any ,{ resetForm }: any){
+        handleSubmit(values: any, { resetForm }: any) {
             console.log(values)
         }
     }
@@ -91,7 +84,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-    .contact-us-form{
-        direction: rtl;
-    }
+.contact-us-form {
+    direction: rtl;
+}
 </style>

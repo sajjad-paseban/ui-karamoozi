@@ -16,6 +16,8 @@ const useRoleStore = defineStore('role-store', ()=>{
         set_role,
         clear_role
     }
+},{
+    persist: true
 })
 
 export default useRoleStore

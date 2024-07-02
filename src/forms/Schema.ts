@@ -266,3 +266,47 @@ export const AccessUsersFormSchema = yup.object({
     .required(customErrorMessage('منو').required)
 
 })
+
+export const GroupFormSchema = yup.object({ 
+    code: yup
+    .number()
+    .typeError("لطفا عدد وارد نمایید")
+    .required(customErrorMessage('کد گروه').required),
+
+    name: yup
+    .string()
+    .required(customErrorMessage('عنوان گروه').required)
+
+})
+
+// company registration application
+export const CraFormSchema = yup.object({ 
+    company_name: yup
+    .string()
+    .required(customErrorMessage('نام شرکت').required),
+
+    company_manager_name: yup
+    .string()
+    .required(customErrorMessage('نام مدیر عامل شرکت').required),
+
+    company_supervisor_name: yup
+    .string()
+    .required(customErrorMessage('نام سرپرست شرکت').required),
+
+    company_supervisor_phone: yup
+    .string()
+    .required(customErrorMessage('شماره سرپرست شرکت').required),
+
+    company_telephone: yup
+    .string()
+    .required(customErrorMessage('شماره شرکت').required),
+
+    company_address: yup
+    .string()
+    .required(customErrorMessage('آدرس شرکت').required),
+
+    description: yup
+    .string()
+    .required(customErrorMessage('توضیحات').required),
+
+})

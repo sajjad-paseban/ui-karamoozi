@@ -1,7 +1,7 @@
 <template>
     <div class="menu-partial">
         <div class="user-info">
-            <div class="user-roles">
+            <div v-if="role.list && role.list.length > 0" class="user-roles">
                 <div class="role-preview" @click="role.visibility = !role.visibility">
                     <i class="pi pi-angle-down"></i>
                     <span>{{ role.selectedRole.role.title }}</span>
@@ -36,17 +36,16 @@
                 {{ userStore.user.info.nationalcode ? '0' + userStore.user.info.nationalcode : '-' }}
             </div>
         </div>
-        <div class="menu-list">
+        <div v-if="updated_access_list && updated_access_list.length > 0" class="menu-list">
             <div class="d-flex justify-content-end">
                 <span class="" style="position: relative; right: 16px; color: #fff;">
                     منو
                 </span>
             </div>
             <ul>
-                <li v-for="(item, key) in access" :key="key">
+                <li v-for="(item, key) in updated_access_list" :key="key">
                     <router-link :to="{ name: item.menu.key_param }">
                         {{ item.menu.title }}
-                        <!-- {{ item.menu }} -->
                         <i :class="item.menu.logo"></i>
                     </router-link>
                 </li>
@@ -61,7 +60,7 @@ import { get_user_roles } from "@/services/users_roles.service";
 import { useSiteStore } from "@/store/site-store";
 import useUserStore from "@/store/user-store";
 import useRoleStore from "@/store/role-store"
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { get_user_access } from "@/services/user.service";
 
 export default defineComponent({
@@ -98,16 +97,27 @@ export default defineComponent({
                 currentRole: -1,
                 selectedRole: null,
             },
-            access: null
+            access: []
+        }
+    },
+    computed: {
+        updated_access_list(): any {
+            return Array.from(new Map(this.access.map((item: any) => [item.menu_id, item])).values());
         }
     },
     async mounted() {
         const roles = await get_user_roles()
         this.role.list = roles.data.row
-        this.role.currentRole = this.role.list.findIndex((item: any) => item.default_role == true)
-        this.role.selectedRole = this.role.list[this.role.currentRole]
 
-        this.roleStore.set_role(this.role.selectedRole)
+        if (this.roleStore.role == null) {
+
+            this.role.currentRole = this.role.list.findIndex((item: any) => item.default_role == true)
+            this.role.selectedRole = this.role.list[this.role.currentRole]
+            this.roleStore.set_role(this.role.selectedRole)
+        } else {
+            this.role.currentRole = this.role.list.findIndex((item: any) => item.id == this.roleStore.role.id)
+            this.role.selectedRole = this.role.list[this.role.currentRole]
+        }
 
         const user_access = await get_user_access()
         this.access = user_access.data.row

@@ -65,7 +65,7 @@ export default defineComponent({
         const roles_list = await get_user_roles()
 
         this.roles = roles_list.data.row
-        this.form.params.role_id = this.roles.find((item: any) => item.default_role == true).role.id
+        this.form.params.role_id = (this.roles.find((item: any) => item.default_role == true) as any).role.id
     }
 })
 </script>

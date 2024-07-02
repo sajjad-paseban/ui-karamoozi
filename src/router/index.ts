@@ -48,7 +48,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/register',
     name: 'register',
-    component: RegisterView
+    component: RegisterView,
+    meta: {
+      middleware: [
+        userNotLogin
+      ]
+    }
   },
   {
     path: '/:pathMatch(.*)*',
