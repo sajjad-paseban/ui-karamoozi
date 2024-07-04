@@ -1,28 +1,20 @@
 <template>
-    <div class="panel-cra-datagrid">
+    <div class="panel-site-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-cra-datagrid">
+            ref="panel-site-datagrid">
 
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
                     <div class="d-flex justify-content-center">
-                        <button class="btn btn-sm btn-danger mx-1 d-flex align-items-center"
-                            @click="handleStatus(false, props.row.id)" style="height: 28px;"
-                            :disabled="props.row.status == 0 ? true : false">
-                            <i class="pi pi-times-circle"></i>
-                        </button>
-                        <button class="btn btn-sm btn-success mx-1 d-flex align-items-center"
-                            @click="handleStatus(true, props.row.id)" style="height: 28px;"
-                            :disabled="props.row.status == 1 ? true : false">
-                            <i class="pi pi-check"></i>
-                        </button>
+                        <router-link :to="{ name: 'edit-sites-management', params: { id: props.row.id } }"
+                            class="btn btn-warning btn-sm mx-1 d-flex align-items-center">
+                            <i class="pi pi-file-edit"></i>
+                        </router-link>
                     </div>
                 </div>
                 <div v-else-if="props.column.field == 'status'">
-                    <span v-if="props.row.status == 1">فعال</span>
-                    <span v-if="props.row.status == 0">غیر فعال</span>
-                    <span v-if="props.row.status == null">نا مشخص</span>
+                    {{ props.row.status == 1 ? 'فعال' : 'غیر فعال' }}
                 </div>
                 <div v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -30,7 +22,7 @@
             </template>
 
             <template #selected-row-actions>
-                <button @click="deleteAction" class="btn btn-sm btn-secondary">
+                <button class="btn btn-secondary btn-sm" @click="deleteAction">
                     حذف
                 </button>
             </template>
@@ -49,16 +41,15 @@
 import { defineComponent } from 'vue'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
-import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_cra, get_data, change_status_cra } from '@/services/cra.service'
+import { delete_site, get_data } from '@/services/sites.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    name: 'panel-cra-datagrid',
+    name: 'panel-site-datagrid',
     components: {
         VueGoodTable,
-        Button,
         AkPlus
     },
     methods: {
@@ -66,7 +57,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-cra-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-site-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -75,7 +66,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_cra(ids)
+                    const result = await delete_site(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -85,31 +76,10 @@ export default defineComponent({
             })
 
         },
-        handleStatus(status: boolean, id: number) {
-            AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
-                if (result.isConfirmed) {
-                    const res = await change_status_cra({ status: status == false ? 0 : 1 }, id)
-
-                    this.rows.map((item: any, index: number) => {
-                        if (item.id == id) {
-                            item.status = status == false ? 0 : 1
-                        }
-                    })
-
-                    Toast.fire({
-                        text: res.data.message,
-                        icon: res.status == 200 ? 'success' : 'error'
-                    })
-                }
-            })
-        },
         tdClassFunc(row: any) {
-            if (row.status == null)
-                return 'bg-secondary text-white';
-
-
-            if (row.status == 0)
+            if (row.status == 0) {
                 return 'bg-danger text-white';
+            }
 
             return 'bg-success text-white';
         },
@@ -118,39 +88,15 @@ export default defineComponent({
         return {
             columns: [
                 {
-                    label: 'کاربر درخواست دهنده',
-                    field: 'user.fullname',
+                    label: 'نام سایت',
+                    field: 'name',
                 },
                 {
-                    label: 'نام شرکت',
-                    field: 'company_name',
+                    label: 'لینک سایت',
+                    field: 'link',
                 },
                 {
-                    label: 'نام مدیر عامل شرکت',
-                    field: 'company_manager_name',
-                },
-                {
-                    label: 'نام سرپرست شرکت',
-                    field: 'company_supervisor_name',
-                },
-                {
-                    label: 'شماره سرپرست شرکت',
-                    field: 'company_supervisor_phone',
-                },
-                {
-                    label: 'تلفن شرکت',
-                    field: 'company_telephone',
-                },
-                {
-                    label: 'آدرس شرکت',
-                    field: 'company_address',
-                },
-                {
-                    label: 'توضیحات',
-                    field: 'description',
-                },
-                {
-                    label: 'وضعیت',
+                    label: 'وضعیت‌',
                     field: 'status',
                     tdClass: this.tdClassFunc,
                 },
@@ -173,7 +119,7 @@ export default defineComponent({
                     selectionText: 'سطر انتخاب شده',
                     clearSelectionText: 'پاک کن',
                     disableSelectInfo: false, // disable the select info panel on top
-                    // selectAllByGroup: true, // when used in combination with a craed table, add a checkbox in the header row to check/uncheck the entire cra
+                    // selectAllBySite: true, // when used in combination with a siteed table, add a checkbox in the header row to check/uncheck the entire site
                 },
                 sort: {
                     enabled: true
@@ -199,19 +145,14 @@ export default defineComponent({
     },
     async mounted() {
         const res = await get_data()
-        if (res.status == 200) {
-            this.rows = res.data.row.company_registration_application_list
-
-            this.rows.map((item: any, index) => {
-                item.user.fullname = item.user.fname + ' ' + item.user.lname
-            })
-        }
+        if (res.status == 200)
+            this.rows = res.data.row.site_list
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.panel-cra-datagrid {
+.panel-site-datagrid {
     p.empty-state {
         text-align: center;
     }

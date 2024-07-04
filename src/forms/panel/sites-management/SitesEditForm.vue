@@ -1,0 +1,108 @@
+<template>
+    <Form :validation-schema="form.SiteFormSchema" @submit="handleSubmit">
+        <div class="d-flex justify-content-start flex-row-reverse align-items-start">
+            <div class="form-group mx-1">
+                <label for="name">
+                    نام سایت
+                </label>
+                <Field type="text" dir="rtl" name="name" v-model="form.params.name" id="name"
+                    class="form-control form-control-sm" />
+                <ErrorMessage name="name" />
+            </div>
+            <div class="form-group mx-1">
+                <label for="link">
+                    لینک سایت
+                </label>
+                <Field type="text" dir="rtl" name="link" v-model="form.params.link" id="link"
+                    class="form-control form-control-sm" />
+                <ErrorMessage name="link" />
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="form-group w-100 m-1">
+                <label for="status">
+                    آیا فعال می باشد؟
+                </label>
+                <div class="form-check form-switch d-flex flex-column align-items-end">
+                    <input type="checkbox" :checked="form.params.status" @change="statusHandler" name="status" id="status"
+                        class="form-check-input">
+                    <Field hidden type="checkbox" @change="statusHandler" name="status" id="status"
+                        class="form-check-input" />
+                    <ErrorMessage name="status" />
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <button type="submit" class="btn btn-sm btn-primary shadow-sm">
+                ذخیره
+            </button>
+        </div>
+    </Form>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import { SiteFormSchema } from '@/forms/Schema'
+import { handleNumber, Toast } from '@/helpers/Base'
+import { find_data, update_site } from '@/services/sites.service'
+import { useRoute, useRouter } from 'vue-router'
+export default defineComponent({
+    name: 'site-edit-form',
+    setup() {
+        const route = useRoute()
+        const router = useRouter()
+        return {
+            route,
+            router
+        }
+    },
+    components: {
+        Form,
+        Field,
+        ErrorMessage
+    },
+    data() {
+        return {
+            form: {
+                SiteFormSchema,
+                params: {
+                    name: null,
+                    link: null,
+                    status: true,
+                }
+            },
+        }
+    },
+    methods: {
+        handleNumber,
+        statusHandler: function (el: any) {
+            this.form.params.status = el.target.checked
+        },
+        handleSubmit: async function (values: any, { resetForm }: any) {
+
+            Object.assign(values, { status: this.form.params.status ? 1 : 0 })
+
+            const res = await update_site(values, this.route.params.id as unknown as number)
+
+            Toast.fire({
+                text: res.data.message ?? 'عملیات با خطا مواجه گردید',
+                icon: res.data.code == 200 ? 'success' : 'error'
+            }).then(() => {
+                resetForm()
+                this.router.push({ name: 'sites-management' })
+            })
+        }
+    },
+    async mounted() {
+
+        const result = await find_data(this.route.params.id as unknown as number)
+        if (result.status == 200) {
+            this.form.params.name = result.data.row.site_list.name
+            this.form.params.link = result.data.row.site_list.link
+            this.form.params.status = result.data.row.site_list.status == 1 ? true : false
+        }
+
+    }
+})
+</script>

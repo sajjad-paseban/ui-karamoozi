@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const PanelRoute: RouteRecordRaw[] = [
     {
         path: '',
-        name: 'panel',
+        name: 'dashboard',
         component: () => import('@/views/panel/IndexView.vue'),
     },
     {
@@ -58,7 +58,55 @@ const PanelRoute: RouteRecordRaw[] = [
         name: 'company-registration-application-management',
         component: () => import('@/views/panel/cra-management/IndexView.vue'),
     },
-    
+    {
+        path: '/intern-recruitment-application',
+        name: 'intern-recruitment-application',
+        component: () => import('@/views/panel/ira-management/CreateView.vue'),
+    },
+    {
+        path: 'semester-management',
+        name: 'semester-management',
+        redirect: { name: 'index-semester-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-semester-management',
+                component: () => import('@/views/panel/semester-management/IndexView.vue')
+            },
+            {
+                path: 'create',
+                name: 'create-semester-management',
+                component: () => import('@/views/panel/semester-management/CreateView.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'edit-semester-management',
+                component: () => import('@/views/panel/semester-management/EditView.vue')
+            }
+        ]
+    },
+    {
+        path: 'sites-management',
+        name: 'sites-management',
+        redirect: { name: 'index-sites-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-sites-management',
+                component: () => import('@/views/panel/sites-management/IndexView.vue')
+            },
+            {
+                path: 'create',
+                name: 'create-sites-management',
+                component: () => import('@/views/panel/sites-management/CreateView.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'edit-sites-management',
+                component: () => import('@/views/panel/sites-management/EditView.vue')
+            }
+        ]
+    },
 ]
 
 

@@ -25,6 +25,17 @@ export const find_data = async (id: number) =>{
     }
 }
 
+export const find_data_by_user_id = async () =>{
+    try{
+        const result = await useApi.post('company_registration_application.php?method=get-data-by-user-id', useAuthStore().auth)
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
 export const delete_cra = async (ids: any) =>{
     try{
         const result = await useApi.post('company_registration_application.php?method=delete-company-registration-application', connectTokenWithData({ ids: (ids as Array<any>).join(',') }))
@@ -47,10 +58,10 @@ export const create_cra = async (data: any) =>{
     }
 }
 
-export const update_cra = async (data: any ,id: number) =>{
+export const change_status_cra = async (data: any ,id: number) =>{
     try{
-        const result = await useApi.post('company_registration_application.php?method=update-company-registration-application', connectTokenWithData(data), {
-            params: { id: id }
+        const result = await useApi.post('company_registration_application.php?method=change-status-company-registration-application', connectTokenWithData(data), {
+            params: { cra_id: id }
         })
         
         return result

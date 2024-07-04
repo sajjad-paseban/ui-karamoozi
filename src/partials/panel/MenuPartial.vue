@@ -44,7 +44,9 @@
             </div>
             <ul>
                 <li v-for="(item, key) in updated_access_list" :key="key">
-                    <router-link :to="{ name: item.menu.key_param }">
+                    <router-link
+                        :class="{ 'active': route.path.includes(item.menu.key_param) || route.name === item.menu.key_param }"
+                        :to="{ name: item.menu.key_param }">
                         {{ item.menu.title }}
                         <i :class="item.menu.logo"></i>
                     </router-link>
@@ -62,6 +64,8 @@ import useUserStore from "@/store/user-store";
 import useRoleStore from "@/store/role-store"
 import { computed, defineComponent } from "vue";
 import { get_user_access } from "@/services/user.service";
+import { useRoute, useRouter } from "vue-router";
+import router from "@/router";
 
 export default defineComponent({
     name: 'menu-partial',
@@ -69,10 +73,13 @@ export default defineComponent({
         const siteStore = useSiteStore().site
         const userStore = useUserStore()
         const roleStore = useRoleStore()
+        const route = useRoute()
+        const router = useRouter()
         return {
             siteStore,
             userStore,
-            roleStore
+            roleStore,
+            route
         }
     },
     methods: {
@@ -87,6 +94,8 @@ export default defineComponent({
 
             this.access = user_access.data.row
             this.role.visibility = false
+
+            router.push({ name: 'dashboard' })
         }
     },
     data() {

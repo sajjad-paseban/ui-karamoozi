@@ -295,10 +295,12 @@ export const CraFormSchema = yup.object({
 
     company_supervisor_phone: yup
     .string()
+    .length(11, customErrorMessage('شماره سرپرست شرکت', { length: 11 }).length)
     .required(customErrorMessage('شماره سرپرست شرکت').required),
 
     company_telephone: yup
     .string()
+    .length(11, customErrorMessage('شماره شرکت', { length: 11 }).length)
     .required(customErrorMessage('شماره شرکت').required),
 
     company_address: yup
@@ -308,5 +310,42 @@ export const CraFormSchema = yup.object({
     description: yup
     .string()
     .required(customErrorMessage('توضیحات').required),
+
+})
+
+export const IraFormSchema = yup.object({ 
+    group_id: yup
+    .string()
+    .required(customErrorMessage('گروه').required),
+
+    capacity: yup
+    .string()
+    .required(customErrorMessage('ظرفیت').required),
+
+    description: yup
+    .string()
+    .required(customErrorMessage('توضیحات').required),
+
+})
+
+export const SemesterFormSchema = yup.object({ 
+    code: yup
+    .string()
+    .required(customErrorMessage('کد نیمسال تحصیلی').required),
+
+    name: yup
+    .string()
+    .required(customErrorMessage('نام نیمسال تحصیلی').required),
+
+})
+
+export const SiteFormSchema = yup.object({ 
+    name: yup
+    .string()
+    .required(customErrorMessage('نام سایت').required),
+
+    link: yup
+    .string()
+    .required(customErrorMessage('لینک سایت').required),
 
 })

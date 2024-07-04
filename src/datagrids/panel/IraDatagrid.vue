@@ -1,8 +1,8 @@
 <template>
-    <div class="panel-cra-datagrid">
+    <div class="panel-ira-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-cra-datagrid">
+            ref="panel-ira-datagrid">
 
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
@@ -51,11 +51,11 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_cra, get_data, change_status_cra } from '@/services/cra.service'
+import { delete_ira, get_data, change_status_ira } from '@/services/ira.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 
 export default defineComponent({
-    name: 'panel-cra-datagrid',
+    name: 'panel-ira-datagrid',
     components: {
         VueGoodTable,
         Button,
@@ -66,7 +66,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-cra-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-ira-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -75,7 +75,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_cra(ids)
+                    const result = await delete_ira(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -88,7 +88,7 @@ export default defineComponent({
         handleStatus(status: boolean, id: number) {
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const res = await change_status_cra({ status: status == false ? 0 : 1 }, id)
+                    const res = await change_status_ira({ status: status == false ? 0 : 1 }, id)
 
                     this.rows.map((item: any, index: number) => {
                         if (item.id == id) {
@@ -173,7 +173,7 @@ export default defineComponent({
                     selectionText: 'سطر انتخاب شده',
                     clearSelectionText: 'پاک کن',
                     disableSelectInfo: false, // disable the select info panel on top
-                    // selectAllByGroup: true, // when used in combination with a craed table, add a checkbox in the header row to check/uncheck the entire cra
+                    // selectAllByGroup: true, // when used in combination with a iraed table, add a checkbox in the header row to check/uncheck the entire ira
                 },
                 sort: {
                     enabled: true
@@ -211,7 +211,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.panel-cra-datagrid {
+.panel-ira-datagrid {
     p.empty-state {
         text-align: center;
     }
