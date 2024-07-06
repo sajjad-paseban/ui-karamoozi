@@ -9,10 +9,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import '@/assets/scss/global.scss'
 import 'primeicons/primeicons.css'
 
+
 const app = createApp(App)
 
 app.config.errorHandler = () => null;
 app.config.warnHandler = () => null;
+
 
 app.use(router).use(createPinia().use(piniaPluginPersistedstate))
 .mount('#app')

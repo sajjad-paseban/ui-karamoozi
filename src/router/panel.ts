@@ -107,6 +107,40 @@ const PanelRoute: RouteRecordRaw[] = [
             }
         ]
     },
+    {
+        path: 'contactus-management',
+        name: 'contactus-management',
+        redirect: { name: 'index-contactus-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-contactus-management',
+                component: () => import('@/views/panel/contactus-management/IndexView.vue')
+            },
+        ]
+    },
+    {
+        path: 'content-management',
+        name: 'content-management',
+        redirect: { name: 'index-content-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-content-management',
+                component: () => import('@/views/panel/content-management/IndexView.vue')
+            },
+                        {
+                path: 'create',
+                name: 'create-content-management',
+                component: () => import('@/views/panel/content-management/CreateView.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'edit-content-management',
+                component: () => import('@/views/panel/content-management/EditView.vue')
+            }
+        ]
+    },
 ]
 
 

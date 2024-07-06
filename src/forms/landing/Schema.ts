@@ -5,7 +5,7 @@ export const ContactUsFormSchema = yup.object({
     .string()
     .required('فیلد نام و نام خانوادگی اجباری می باشد'),
 
-    title: yup
+    subject: yup
     .string()
     .required('فیلد موضوع اجباری می باشد'),
     

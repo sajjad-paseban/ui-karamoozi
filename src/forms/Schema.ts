@@ -349,3 +349,39 @@ export const SiteFormSchema = yup.object({
     .required(customErrorMessage('لینک سایت').required),
 
 })
+
+export const ContentCreateFormSchema = yup.object({ 
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان محتوا').required),
+
+    image: yup
+    .string()
+    .required(customErrorMessage('آپلود تصویر').required),
+    
+    seo_description: yup
+    .string()
+    .required(customErrorMessage('توضیحات محتوا').required),
+     
+})
+
+export const ContentEditFormSchema = yup.object({ 
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان محتوا').required),
+    
+    seo_description: yup
+    .string()
+    .required(customErrorMessage('توضیحات محتوا').required),
+     
+})
+
+export const MediaFormSchema = yup.object({
+    title: yup
+    .string()
+    .required(customErrorMessage('عنوان').required),
+
+    image: yup
+    .string()
+    .required(customErrorMessage('آپلود تصویر').required),
+})

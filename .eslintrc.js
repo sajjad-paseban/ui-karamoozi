@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ["src/*", "public/*"],
   root: true,
   env: {
     node: true
@@ -12,6 +13,8 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
+    "semi": "warn",
+    "quotes": "off",
     'vue/no-unused-components': 'off',
     'vue/valid-template-root': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

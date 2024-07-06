@@ -4,9 +4,6 @@
 @import 'fonts';
 @import 'buttons';
 
-html{
-    zoom: 90%;
-}
 
 /* width */
 ::-webkit-scrollbar {
@@ -115,6 +112,24 @@ body{
     color: #fff;
 }
 
+.tox-promotion-link{
+    display: none !important;  
+}
+.tox-statusbar__branding{
+    display: none !important;
+}
+.tox-editor-container{
+    font-family: 'vazir' !important;
+}
+.tox-menu{   
+    font-family: 'vazir' !important;
+}
+.tox-toolbar{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+}
+
 .vgt-wrap{
     *{
         font-family: 'vazir', Arial, Calibri;
@@ -130,6 +145,7 @@ body{
 
         th,td{
             text-align: center;
+            vertical-align: middle;
         }
     }
 

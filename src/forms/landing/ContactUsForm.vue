@@ -13,11 +13,11 @@
                 </div>
                 <div class="col-auto">
                     <div class="form-group">
-                        <label for="title">
+                        <label for="subject">
                             موضوع
                         </label>
-                        <Field v-model="form.params.title" class="form-control" name="title" id="title" />
-                        <ErrorMessage name="title" />
+                        <Field v-model="form.params.subject" class="form-control" name="subject" id="subject" />
+                        <ErrorMessage name="subject" />
                     </div>
                 </div>
                 <div class="col-auto">
@@ -54,6 +54,8 @@ import { defineComponent } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import Button from '@/components/Button.vue';
 import { ContactUsFormSchema } from '@/forms/landing/Schema'
+import { create_contactus } from '@/services/contactus.service';
+import { Toast } from '@/helpers/Base';
 export default defineComponent({
     name: 'contact-us-form',
     components: {
@@ -68,7 +70,7 @@ export default defineComponent({
                 ContactUsFormSchema,
                 params: {
                     name: null,
-                    title: null,
+                    subject: null,
                     email: null,
                     description: null
                 }
@@ -76,8 +78,15 @@ export default defineComponent({
         }
     },
     methods: {
-        handleSubmit(values: any, { resetForm }: any) {
-            console.log(values)
+        async handleSubmit(values: any, { resetForm }: any) {
+            const res = await create_contactus(values)
+
+            Toast.fire({
+                title: res.data.message,
+                icon: res.status == 200 ? 'success' : 'error'
+            })
+
+            resetForm()
         }
     }
 })
