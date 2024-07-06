@@ -6,11 +6,11 @@ const PanelRoute: RouteRecordRaw[] = [
         name: 'dashboard',
         component: () => import('@/views/panel/IndexView.vue'),
     },
-    {
-        path: 'ticket',
-        name: 'ticket',
-        component: () => import('@/views/panel/tickets/IndexView.vue')        
-    },
+    // {
+    //     path: 'ticket',
+    //     name: 'ticket',
+    //     component: () => import('@/views/panel/tickets/IndexView.vue')        
+    // },
     {
         path: 'change-password',
         name: 'change-password',
@@ -129,7 +129,7 @@ const PanelRoute: RouteRecordRaw[] = [
                 name: 'index-content-management',
                 component: () => import('@/views/panel/content-management/IndexView.vue')
             },
-                        {
+            {
                 path: 'create',
                 name: 'create-content-management',
                 component: () => import('@/views/panel/content-management/CreateView.vue')

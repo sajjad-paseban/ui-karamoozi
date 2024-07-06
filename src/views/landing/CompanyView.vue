@@ -1,10 +1,8 @@
 <template>
-    <section-title 
-        :title="section.title"
-        :caption="section.caption"
-        :description="section.description"
-    />
-    <company-datagrid />
+    <div class="company-view">
+        <section-title :title="section.title" :caption="section.caption" :description="section.description" />
+        <company-datagrid />
+    </div>
 </template>
 
 <script lang="ts">
@@ -13,7 +11,7 @@ import CompanyDatagrid from '@/datagrids/landing/CompanyDatagrid.vue';
 import { defineComponent } from 'vue'
 export default defineComponent({
     name: 'landing-company-view',
-    data(){
+    data() {
         return {
             section: {
                 title: 'لیست شرکت ها',
@@ -23,10 +21,12 @@ export default defineComponent({
         }
     },
     components: { SectionTitle, CompanyDatagrid },
-    
+
 });
 </script>
 
 <style lang="scss" scoped>
-
+.company-view {
+    margin-bottom: 600px;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
-    <section-title
-        title="ارتباط با ما"
-        caption="جهت برقراری ارتباط با پشتیبانی" />
-    <contact-us-form />
+    <div class="contact-us-view">
+        <section-title title="ارتباط با ما" caption="جهت برقراری ارتباط با پشتیبانی" />
+        <contact-us-form />
+    </div>
 </template>
 
 <script lang="ts">
@@ -16,7 +16,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-    .contact-us-view{
+.contact-us-view {
+    margin-bottom: 400px;
 
-    }
+}
 </style>

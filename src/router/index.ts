@@ -57,6 +57,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:pathMatch(.*)*',
+    name: 'not-found',
     component: PageNotFound
   }
 ]

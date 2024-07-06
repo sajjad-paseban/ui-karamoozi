@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="message-item" @click="message.visibility = !message.visibility">
                         <span>
                             پیام ها
@@ -59,7 +59,7 @@
                             </span>
                         </div>
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="right">
@@ -91,7 +91,7 @@ export default defineComponent({
         return {
             profileMenu: {
                 data: [
-                    { name: 'ارسال تیکت', link: '/panel/ticket/', icon: 'pi pi-ticket' },
+                    // { name: 'ارسال تیکت', link: '/panel/ticket/', icon: 'pi pi-ticket' },
                     { name: 'رفتن به سامانه', link: '/', icon: 'pi pi-link' },
                     { name: 'تغییر کلمه عبور', link: '/panel/change-password', icon: 'pi pi-lock' },
                     { name: 'مدیریت پروفایل', link: '/panel/profile-management', icon: 'pi pi-user-edit' },

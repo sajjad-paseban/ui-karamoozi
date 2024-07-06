@@ -104,6 +104,7 @@ export default defineComponent({
                 {
                     label: 'توضیحات محتوا',
                     field: 'seo_description',
+                    width: '600px'
                 },
                 {
                     label: 'تاریخ ثبت',

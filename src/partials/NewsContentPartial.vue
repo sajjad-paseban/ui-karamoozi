@@ -1,18 +1,17 @@
 <template>
     <div class="news-content-partial">
-        <section-title 
-            title="اخبار و اطلاعیه ها"
-            caption="اخبار و اطلاعیه های اخیر دانشگاه را در اینجا دنبال کنید"
-        >
+        <section-title title="اخبار و اطلاعیه ها" caption="اخبار و اطلاعیه های اخیر دانشگاه را در اینجا دنبال کنید">
             <McAnnouncementLine />
         </section-title>
 
 
         <Carousel v-bind="carousel.settings" :breakpoints="carousel.breakpoints">
-            <Slide v-for="slide in 10" :key="slide">
-                <slide-show-item />
-            </Slide>
+            <Slide v-for="(item, index) in data" :key="index">
+                <slide-show-item :img-path="api_base_url + item?.banner_path" :img-alt="item?.title" :title="item?.title"
+                    :date="changeDate(item?.create_at)" :description="shortenDescription(item?.seo_description) + '...'"
+                    :link-path="'/news/' + manageSlug(item?.title)" />
 
+            </Slide>
             <template #addons>
                 <Navigation />
             </template>
@@ -21,14 +20,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import SectionTitle from '@/components/SectionTitle.vue'
 import SlideShowItem from '@/components/SlideShowItem.vue';
 import { McAnnouncementLine } from "@kalimahapps/vue-icons";
 import { defineComponent } from 'vue';
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
-
+import { get_back_base_url } from '@/helpers/Base'
 import 'vue3-carousel/dist/carousel.css'
+import { string } from 'yup';
+import moment from 'jalali-moment';
 
 export default defineComponent({
     name: 'news-content-partial',
@@ -40,8 +41,29 @@ export default defineComponent({
         Navigation,
         SlideShowItem,
     },
-    data(){
+    props: ['items'],
+    methods: {
+        changeDate(date: string) {
+            return moment(date).locale('fa').format('YYYY/M/D H:m:s')
+        },
+        manageSlug(slug: string) {
+            return slug.replaceAll(' ', '-')
+        },
+        shortenDescription(desc: string) {
+            let newDesc = ''
+            desc.split(' ').map((item, index) => {
+                if (newDesc.length < 150) {
+                    newDesc += ' ' + item
+                }
+            })
+
+            return newDesc
+        }
+    },
+    data() {
         return {
+            api_base_url: get_back_base_url(),
+            data: [],
             carousel: {
                 settings: {
                     itemsToShow: 1,
@@ -63,10 +85,13 @@ export default defineComponent({
                 },
             }
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.data = this.items
+        }, 100)
     }
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -2,11 +2,7 @@
     <footer>
         <div class="footer-top">
             <div class="left-side">
-                <logo 
-                    :title="siteStore?.uni_name"
-                    is-light="true"
-                    :path="get_back_base_url() + siteStore?.uni_logo_path"
-                />
+                <logo :title="siteStore?.uni_name" is-light="true" :path="get_back_base_url() + siteStore?.uni_logo_path" />
             </div>
             <nav>
                 <ul>
@@ -50,9 +46,9 @@ import { get_back_base_url } from '@/helpers/Base'
 import { useSiteStore } from '@/store/site-store'
 import Vue, { defineComponent, watch } from 'vue'
 export default defineComponent({
-    name: 'footer-partial',  
+    name: 'footer-partial',
     components: { Logo },
-    setup(){
+    setup() {
         const siteStore = useSiteStore().site
         return {
             siteStore
@@ -65,54 +61,62 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-    footer{
-        margin-top: 350px;
-        background-color: #263238;
-        .footer-top{
+footer {
+    margin-top: 20px;
+    background-color: #263238;
+
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px 30px;
+
+        .left-side {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 20px 30px;
-            .left-side{
-                display: flex;
-                align-items: center;
-            }
+            align-items: center;
+        }
 
-            nav{
-                display: flex;
-                ul{
-                    margin: 0 15px;
-                    list-style: none;
-                    direction: rtl;
-                    font-family: 'ghasem';
-                    span{
-                        font-size: 16px;
-                        color: #fff;
-                    }
+        nav {
+            display: flex;
 
-                    li{
-                        margin: 10px 0;
-                        font-size: 14px;
-                        a{
-                            color: rgba($color: #fff, $alpha: 0.6);
-                            &:hover{
-                                color: #4CAF50;
-                            }
+            ul {
+                margin: 0 15px;
+                list-style: none;
+                direction: rtl;
+                font-family: 'ghasem';
+
+                span {
+                    font-size: 16px;
+                    color: #fff;
+                }
+
+                li {
+                    margin: 10px 0;
+                    font-size: 14px;
+
+                    a {
+                        color: rgba($color: #fff, $alpha: 0.6);
+
+                        &:hover {
+                            color: #4CAF50;
                         }
                     }
                 }
             }
         }
-        .footer-bottom{
-            border-top: 2px solid #fff;
-            padding: 15px 45px;
-            color: #fff;
-            font-family: 'yekan';
-            font-size: 13px;
-            direction: rtl;
-            p{
-                text-align: right;
-            }
+    }
+
+    .footer-bottom {
+        border-top: 2px solid #fff;
+        padding: 15px 45px;
+        color: #fff;
+        font-family: 'yekan';
+        font-size: 13px;
+        direction: rtl;
+
+        p {
+            text-align: right;
         }
     }
+}
 </style>

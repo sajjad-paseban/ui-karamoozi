@@ -1,19 +1,15 @@
 <template>
     <div class="other-networks-partial">
-        <section-title 
-            title="سایر سامانه ها" 
-            caption="سایر سامانه های پر کاربرد دانشگاه"
-        >
+        <section-title title="سایر سامانه ها" caption="سایر سامانه های پر کاربرد دانشگاه">
             <CaContentDeliveryNetwork />
         </section-title>
-
         <Carousel v-bind="carousel.settings" :breakpoints="carousel.breakpoints">
-            <Slide v-for="slide in 2" :key="slide">
+            <Slide v-for="(item, index) in data" :key="index">
                 <div class="item">
-                    <CaContentDeliveryNetwork />                
-                    <router-link to="">
-                        سامانه ثبت پروژه
-                    </router-link>
+                    <CaContentDeliveryNetwork />
+                    <a :href="item?.link" target="_blank">
+                        {{ item?.name }}
+                    </a>
                 </div>
             </Slide>
 
@@ -24,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import SectionTitle from '@/components/SectionTitle.vue';
 import { CaContentDeliveryNetwork } from "@kalimahapps/vue-icons";
@@ -34,6 +30,7 @@ import 'vue3-carousel/dist/carousel.css'
 
 export default defineComponent({
     name: 'other-networks-partial',
+    props: ['items'],
     components: {
         SectionTitle,
         CaContentDeliveryNetwork,
@@ -41,8 +38,9 @@ export default defineComponent({
         Navigation,
         Slide
     },
-    data(){
+    data() {
         return {
+            data: [],
             carousel: {
                 settings: {
                     itemsToShow: 1,
@@ -64,35 +62,40 @@ export default defineComponent({
                 },
             }
         }
+    },
+    async mounted() {
+        setTimeout(() => {
+            this.data = this.items
+        }, 100)
     }
 })
 </script>
 
 <style lang="scss" scoped>
-    .other-networks-partial{
-        
-        .item{
-            display: flex;
-            flex-wrap: wrap;
-            
-            & > *{
-                width: 100%;
-            }
+.other-networks-partial {
 
-            svg{
-                font-size: 80px;
-                color: #263238;   
-            }
-            
-            a{
-                font-family: 'KOODAKBOLD';
-                background-color: rgba($color: #000000, $alpha: 0.8);
-                color: #fff;
-                padding: 12px 5px;
-                margin: 10px 0;
-                border-radius: 4px;
-                font-size: 14px;
-            }
+    .item {
+        display: flex;
+        flex-wrap: wrap;
+
+        &>* {
+            width: 100%;
+        }
+
+        svg {
+            font-size: 80px;
+            color: #263238;
+        }
+
+        a {
+            font-family: 'KOODAKBOLD';
+            background-color: rgba($color: #000000, $alpha: 0.8);
+            color: #fff;
+            padding: 12px 5px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 14px;
         }
     }
+}
 </style>

@@ -14,21 +14,21 @@
     <div class="row">
         <div class="col">
             <card :headerBordering="true" title="فرم بروزرسانی کاربر">
-                <users-roles-edit-form :props="props" @get-page-data="page" />
+                <user-edit-form :props="props" @get-page-data="page" />
             </card>
         </div>
     </div>
 </template>
 <script lang="ts">
 import Card from "@/components/Card.vue";
-import UsersRolesEditForm from "@/forms/panel/users-roles-management/UsersRolesEditForm.vue";
+import UserEditForm from "@/forms/panel/user-management/UserEditForm.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
     name: 'edit-view',
     props: ['props'],
     components: {
         Card,
-        UsersRolesEditForm
+        UserEditForm
     },
     methods: {
         page: function (val: any) {
