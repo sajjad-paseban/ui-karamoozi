@@ -1,20 +1,20 @@
 <template>
-    <div class="panel-semester-datagrid">
+    <div class="panel-stu-semesters-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-semester-datagrid">
+            ref="panel-stu-semesters-datagrid">
 
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
                     <div class="d-flex justify-content-center">
-                        <router-link :to="{ name: 'edit-semester-management', params: { id: props.row.id } }"
+                        <router-link :to="{ name: 'edit-stu-semesters-management', params: { id: props.row.id } }"
                             class="btn btn-warning btn-sm mx-1 d-flex align-items-center">
                             <i class="pi pi-file-edit"></i>
                         </router-link>
                     </div>
                 </div>
-                <div v-else-if="props.column.field == 'is_active'">
-                    {{ props.row.is_active == 1 ? 'فعال' : 'غیر فعال' }}
+                <div v-else-if="props.column.field == 'status'">
+                    {{ props.row.status == 1 ? 'فعال' : 'غیر فعال' }}
                 </div>
                 <div v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -42,12 +42,12 @@ import { defineComponent } from 'vue'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_semester, get_data } from '@/services/semester.service'
+import { delete_stu_semesters, get_data } from '@/services/stu_semesters.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    name: 'panel-semester-datagrid',
+    name: 'stu-stu-semesterss-datagrid',
     components: {
         VueGoodTable,
         AkPlus
@@ -57,7 +57,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-semester-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-stu-semesters-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -66,7 +66,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_semester(ids)
+                    const result = await delete_stu_semesters(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -77,7 +77,7 @@ export default defineComponent({
 
         },
         tdClassFunc(row: any) {
-            if (row.is_active == 0) {
+            if (row.status == 0) {
                 return 'bg-danger text-white';
             }
 
@@ -89,15 +89,23 @@ export default defineComponent({
             columns: [
                 {
                     label: 'کد نیمسال تحصیلی',
-                    field: 'code',
+                    field: 'semester.code',
                 },
                 {
                     label: 'نام نیمسال تحصیلی',
-                    field: 'name',
+                    field: 'semester.name',
+                },
+                {
+                    label: 'گروه',
+                    field: 'group.name',
+                },
+                {
+                    label: 'نام دانشجو',
+                    field: 'user.fullname',
                 },
                 {
                     label: 'وضعیت‌',
-                    field: 'is_active',
+                    field: 'status',
                     tdClass: this.tdClassFunc,
                 },
                 {
@@ -146,13 +154,13 @@ export default defineComponent({
     async mounted() {
         const res = await get_data()
         if (res.status == 200)
-            this.rows = res.data.row.semester_list
+            this.rows = res.data.row.stu_semesters_list
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.panel-semester-datagrid {
+.panel-stu-semesters-datagrid {
     p.empty-state {
         text-align: center;
     }

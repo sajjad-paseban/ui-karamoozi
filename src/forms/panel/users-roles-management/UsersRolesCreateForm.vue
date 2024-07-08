@@ -2,16 +2,16 @@
     <Form :validation-schema="form.UsersRolesFormSchema" @submit="handleSubmit">
         <div class="d-flex justify-content-start flex-row-reverse align-items-start">
             <div class="form-group mx-1">
-                <label for="user_id">
+                <label for="user_role_id">
                     کاربر
                 </label>
-                <Field type="text" as="select" dir="rtl" name="user_id" v-model="form.params.user_id" id="user_id"
-                    class="form-control form-control-sm">
+                <Field type="text" as="select" dir="rtl" name="user_role_id" v-model="form.params.user_role_id"
+                    id="user_role_id" class="form-control form-control-sm">
                     <option value="">یک گزینه را انتخاب کنید</option>
                     <option v-for="(item, index) in usersOption" :key="index" :value="item.id">{{ item?.fname + ' ' +
                         item?.lname }}</option>
                 </Field>
-                <ErrorMessage name="user_id" />
+                <ErrorMessage name="user_role_id" />
             </div>
             <div class="form-group mx-1">
                 <label for="role_id">
@@ -67,7 +67,7 @@ export default defineComponent({
             form: {
                 UsersRolesFormSchema,
                 params: {
-                    user_id: null,
+                    user_role_id: null,
                     role_id: null,
                     status: true,
                 }

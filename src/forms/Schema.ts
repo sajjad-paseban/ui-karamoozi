@@ -229,7 +229,7 @@ export const UserFormSchema = yup.object({
 })
 
 export const UsersRolesFormSchema = yup.object({ 
-    user_id: yup
+    user_role_id: yup
     .number()
     .typeError("لطفا یک گزینه را انتخاب نمایید")
     .required(customErrorMessage('کاربر').required),
@@ -384,4 +384,35 @@ export const MediaFormSchema = yup.object({
     image: yup
     .string()
     .required(customErrorMessage('آپلود تصویر').required),
+})
+
+export const UsersGroupsSchema = yup.object({
+    role_id: yup
+    .string()
+    .required(customErrorMessage('نقش').required),
+
+    userid: yup
+    .string()
+    .required(customErrorMessage('نام کاربر').required),
+
+    group_id: yup
+    .string()
+    .required(customErrorMessage('نام گروه').required),
+    
+})
+
+export const StuSemestersSchema = yup.object({
+    semester_id: yup
+    .string()
+    .required(customErrorMessage('نیمسال تحصیلی').required),
+
+    group_id: yup
+    .string()
+    .required(customErrorMessage('نام گروه').required),
+
+    userid: yup
+    .string()
+    .required(customErrorMessage('نام کاربر').required),
+
+    
 })

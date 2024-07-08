@@ -1,20 +1,20 @@
 <template>
-    <div class="panel-semester-datagrid">
+    <div class="panel-users-groups-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
-            ref="panel-semester-datagrid">
+            ref="panel-users-groups-datagrid">
 
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
                     <div class="d-flex justify-content-center">
-                        <router-link :to="{ name: 'edit-semester-management', params: { id: props.row.id } }"
+                        <router-link :to="{ name: 'edit-users-groups-management', params: { id: props.row.id } }"
                             class="btn btn-warning btn-sm mx-1 d-flex align-items-center">
                             <i class="pi pi-file-edit"></i>
                         </router-link>
                     </div>
                 </div>
-                <div v-else-if="props.column.field == 'is_active'">
-                    {{ props.row.is_active == 1 ? 'فعال' : 'غیر فعال' }}
+                <div v-else-if="props.column.field == 'status'">
+                    {{ props.row.status == 1 ? 'فعال' : 'غیر فعال' }}
                 </div>
                 <div v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -42,12 +42,12 @@ import { defineComponent } from 'vue'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_semester, get_data } from '@/services/semester.service'
+import { delete_user_group, get_data } from '@/services/users_groups.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-    name: 'panel-semester-datagrid',
+    name: 'panel-users-groups-datagrid',
     components: {
         VueGoodTable,
         AkPlus
@@ -57,7 +57,7 @@ export default defineComponent({
 
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
-                    const ids = (this.$refs['panel-semester-datagrid'] as any).selectedRows.map((i: any, index: number) => {
+                    const ids = (this.$refs['panel-users-groups-datagrid'] as any).selectedRows.map((i: any, index: number) => {
                         this.rows.map((item: any, idx: number) => {
                             if (item.id == i.id)
                                 this.rows.splice(idx, 1)
@@ -66,7 +66,7 @@ export default defineComponent({
                         return i.id
                     })
 
-                    const result = await delete_semester(ids)
+                    const result = await delete_user_group(ids)
 
                     Toast.fire({
                         text: result.data.message,
@@ -88,16 +88,20 @@ export default defineComponent({
         return {
             columns: [
                 {
-                    label: 'کد نیمسال تحصیلی',
-                    field: 'code',
+                    label: 'نقش',
+                    field: 'role.title',
                 },
                 {
-                    label: 'نام نیمسال تحصیلی',
-                    field: 'name',
+                    label: 'نام کاربر',
+                    field: 'user.fullname',
+                },
+                {
+                    label: 'گروه',
+                    field: 'group.name',
                 },
                 {
                     label: 'وضعیت‌',
-                    field: 'is_active',
+                    field: 'status',
                     tdClass: this.tdClassFunc,
                 },
                 {
@@ -119,7 +123,7 @@ export default defineComponent({
                     selectionText: 'سطر انتخاب شده',
                     clearSelectionText: 'پاک کن',
                     disableSelectInfo: false, // disable the select info panel on top
-                    // selectAllBySemester: true, // when used in combination with a semestered table, add a checkbox in the header row to check/uncheck the entire semester
+                    // selectAllBySemester: true, // when used in combination with a users-groupsed table, add a checkbox in the header row to check/uncheck the entire users-groups
                 },
                 sort: {
                     enabled: true
@@ -146,13 +150,13 @@ export default defineComponent({
     async mounted() {
         const res = await get_data()
         if (res.status == 200)
-            this.rows = res.data.row.semester_list
+            this.rows = res.data.row.users_groups_list
     }
 })
 </script>
 
 <style lang="scss" scoped>
-.panel-semester-datagrid {
+.panel-users-groups-datagrid {
     p.empty-state {
         text-align: center;
     }

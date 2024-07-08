@@ -141,6 +141,50 @@ const PanelRoute: RouteRecordRaw[] = [
             }
         ]
     },
+    {
+        path: 'users-groups-management',
+        name: 'users-groups-management',
+        redirect: { name: 'index-users-groups-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-users-groups-management',
+                component: () => import('@/views/panel/users-groups-management/IndexView.vue')
+            },
+            {
+                path: 'create',
+                name: 'create-users-groups-management',
+                component: () => import('@/views/panel/users-groups-management/CreateView.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'edit-users-groups-management',
+                component: () => import('@/views/panel/users-groups-management/EditView.vue')
+            }
+        ]
+    },
+    {
+        path: 'stu-semesters-management',
+        name: 'stu-semesters-management',
+        redirect: { name: 'index-stu-semesters-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-stu-semesters-management',
+                component: () => import('@/views/panel/stu-semesters-management/IndexView.vue')
+            },
+            {
+                path: 'create',
+                name: 'create-stu-semesters-management',
+                component: () => import('@/views/panel/stu-semesters-management/CreateView.vue')
+            },
+            {
+                path: 'edit/:id',
+                name: 'edit-stu-semesters-management',
+                component: () => import('@/views/panel/stu-semesters-management/EditView.vue')
+            }
+        ]
+    },
 ]
 
 

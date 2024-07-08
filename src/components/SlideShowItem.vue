@@ -43,8 +43,12 @@ export default defineComponent({
     border-top-right-radius: 5px;
     overflow: hidden;
     position: relative;
-    height: 300px;
+    height: 350px;
     box-shadow: 0px 0px 2px rgba($color: #263238, $alpha: 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
 
     img {
         width: 100%;
@@ -61,6 +65,7 @@ export default defineComponent({
     }
 
     .title {
+        width: 100%;
         padding: 0 10px;
         text-align: justify;
         direction: rtl;
@@ -72,6 +77,7 @@ export default defineComponent({
     }
 
     .description {
+        width: 100%;
         padding: 8px 12px;
         text-align: justify;
         direction: rtl;
@@ -87,8 +93,7 @@ export default defineComponent({
         display: flex;
         justify-content: left;
         padding: 10px;
-        position: absolute;
-        bottom: 0;
+        align-self: flex-end;
     }
 }
 </style>

@@ -90,7 +90,7 @@ export default defineComponent({
         },
     },
     async mounted() {
-        const res = await find_content(this.route.params?.slug)
+        const res = await find_content(this.route.params?.slug as string)
         if (res.status == 200) {
             this.item = res.data.row.content
             if (this.item == null)

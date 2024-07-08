@@ -136,6 +136,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .menu-partial {
+    overflow-y: auto !important;
+    height: 100%;
+
     .user-info {
         font-family: 'vazir';
         color: rgba($color: #fff, $alpha: 0.9);
