@@ -61,7 +61,19 @@ const PanelRoute: RouteRecordRaw[] = [
     {
         path: '/intern-recruitment-application',
         name: 'intern-recruitment-application',
-        component: () => import('@/views/panel/ira-management/CreateView.vue'),
+        redirect: { name: 'index-intern-recruitment-application' },
+        children:[
+            {
+                path: '',
+                name: 'index-intern-recruitment-application',
+                component: () => import('@/views/panel/ira-management/IndexView.vue'),
+            },
+            {
+                path: 'create',
+                name: 'create-intern-recruitment-application',
+                component: () => import('@/views/panel/ira-management/CreateView.vue'),
+            }
+        ]
     },
     {
         path: 'semester-management',
@@ -183,6 +195,42 @@ const PanelRoute: RouteRecordRaw[] = [
                 name: 'edit-stu-semesters-management',
                 component: () => import('@/views/panel/stu-semesters-management/EditView.vue')
             }
+        ]
+    },
+    {
+        path: 'cvt-management',
+        name: 'cvt-management',
+        redirect: { name: 'index-cvt-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-cvt-management',
+                component: () => import('@/views/panel/cvt-management/IndexView.vue')
+            },
+        ]
+    },
+    {
+        path: 'cr-management',
+        name: 'cr-management',
+        redirect: { name: 'index-cr-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-cr-management',
+                component: () => import('@/views/panel/cr-management/IndexView.vue')
+            },
+        ]
+    },
+    {
+        path: 'stu-request',
+        name: 'stu-request',
+        redirect: { name: 'index-stu-request' },
+        children:[
+            {
+                path: '',
+                name: 'index-stu-request',
+                component: () => import('@/views/panel/stu-request/IndexView.vue')
+            },
         ]
     },
 ]

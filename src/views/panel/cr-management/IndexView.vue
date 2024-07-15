@@ -1,10 +1,10 @@
 <script lang="ts">
-import IraDatagrid from "@/datagrids/panel/IraDatagrid.vue";
+import CrDatagrid from "@/datagrids/panel/CrDatagrid.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
     name: 'index-view',
     components: {
-        IraDatagrid
+        CrDatagrid
     }
 })
 </script>
@@ -13,18 +13,13 @@ export default defineComponent({
     <div class="row justify-content-between flex-row-reverse p-2 align-items-center border-bottom">
         <div class="col-auto">
             <h1 class="text-secondary">
-                درخواست های جذب کار آموز
+                مدیریت درخواست های شرکت
             </h1>
-        </div>
-        <div class="col-auto">
-            <router-link :to="{ name: 'create-intern-recruitment-application' }" class="btn btn-primary btn-sm shadow-sm">
-                درخواست جدید
-            </router-link>
         </div>
     </div>
     <div class="row my-3">
         <div class="col">
-            <ira-datagrid />
+            <cr-datagrid />
         </div>
     </div>
 </template>

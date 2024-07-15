@@ -2,16 +2,17 @@
     <Form :validation-schema="form.AccessUsersFormSchema" @submit="handleSubmit">
         <div class="d-flex justify-content-start flex-row-reverse align-items-start">
             <div class="form-group w-25 mx-1">
-                <label for="user_id">
+                <label for="userid">
                     کاربر
                 </label>
-                <Field as="select" dir="rtl" name="user_id" v-model="form.params.user_id" id="user_id"
+                <Field as="select" dir="rtl" name="userid" v-model="form.params.userid" id="userid"
                     class="form-select form-select-sm">
                     <option v-for="(item, key) in users" :key="key" :value="item.id">
-                        {{ item.fname + ' ' + item.lname + ' (0' + item.nationalcode + ')' }}
+                        {{ item.fname && item.lname ? item.fname + ' ' + item.lname + ' (0' + item.nationalcode + ')' : '(0'
+                            + item.nationalcode + ')' }}
                     </option>
                 </Field>
-                <ErrorMessage name="user_id" />
+                <ErrorMessage name="userid" />
             </div>
 
             <div class="form-group w-25 mx-1">
@@ -67,7 +68,7 @@ export default defineComponent({
             form: {
                 AccessUsersFormSchema,
                 params: {
-                    user_id: null,
+                    userid: null,
                     menu_id: null,
                     status: true,
                 }

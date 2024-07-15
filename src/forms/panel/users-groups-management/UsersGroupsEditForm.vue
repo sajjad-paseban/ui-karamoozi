@@ -18,8 +18,9 @@
                 </label>
                 <Field as="select" dir="rtl" name="userid" v-model="form.params.userid" id="userid"
                     class="form-select form-select-sm">
-                    <option v-for="(item, key) in users" :key="key" :value="item?.id">{{ item?.fname + ' ' + item?.lname +
-                        ' ( 0' + item?.nationalcode + ')' }}
+                    <option v-for="(item, key) in users" :key="key" :value="item?.id">{{ item?.fname && item?.lname ?
+                        item?.fname + ' ' + item?.lname +
+                        ' ( 0' + item?.nationalcode + ')' : '( 0' + item?.nationalcode + ')' }}
                     </option>
                 </Field>
                 <ErrorMessage name="userid" />

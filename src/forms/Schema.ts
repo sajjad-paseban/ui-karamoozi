@@ -255,7 +255,7 @@ export const AccessRolesFormSchema = yup.object({
 })
 
 export const AccessUsersFormSchema = yup.object({ 
-    user_id: yup
+    userid: yup
     .number()
     .typeError("لطفا یک گزینه را انتخاب نمایید")
     .required(customErrorMessage('کاربر').required),
@@ -413,6 +413,49 @@ export const StuSemestersSchema = yup.object({
     userid: yup
     .string()
     .required(customErrorMessage('نام کاربر').required),
+
+    
+})
+
+export const CvtManagerSchema = yup.object({
+
+    group_id: yup
+    .string()
+    .required(customErrorMessage('نام گروه').required),
+
+    file: yup
+    .string()
+    .required(customErrorMessage('فایل').required),
+
+    
+})
+
+export const CvtTeacherSchema = yup.object({
+
+    group_id: yup
+    .string()
+    .required(customErrorMessage('نام گروه').required),
+
+    file: yup
+    .string()
+    .required(customErrorMessage('فایل').required),
+
+    
+})
+
+export const CvtStudentSchema = yup.object({
+
+    semester_id: yup
+    .string()
+    .required(customErrorMessage('نیمسال تحصیلی').required),
+
+    group_id: yup
+    .string()
+    .required(customErrorMessage('نام گروه').required),
+
+    file: yup
+    .string()
+    .required(customErrorMessage('فایل').required),
 
     
 })

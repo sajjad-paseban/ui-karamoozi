@@ -12,22 +12,34 @@
             <menu-partial />
         </div>
     </div>
+    <loading :type="1" v-if="loadingStore.loading" />
 </template>
 
 
 <script lang="ts">
 
-import { Toast } from '@/helpers/Base'
 import HeaderPartial from '@/partials/panel/HeaderPartial.vue'
 import MenuPartial from '@/partials/panel/MenuPartial.vue'
+import { check_user_has_access } from '@/services/auth.service'
 import { get_info } from '@/services/user.service'
 import useAuthStore from '@/store/auth-store'
+import useRoleStore from '@/store/role-store'
 import useUserStore from '@/store/user-store'
+import useLoadingStore from '@/store/loading-store'
 import { defineComponent } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import Loading from '@/components/Loading.vue'
 
 export default defineComponent({
     name: 'panel-layout',
-    components: { HeaderPartial, MenuPartial },
+    components: { HeaderPartial, MenuPartial, Loading },
+    setup() {
+        const loadingStore = useLoadingStore()
+
+        return {
+            loadingStore
+        }
+    },
     methods: {
         showMenu() {
             (this.$refs.panelMenu as any).classList.toggle('show')
@@ -40,6 +52,34 @@ export default defineComponent({
             useUserStore().clear_user()
             useUserStore().set_user(res.data.row)
         }
+    },
+    async beforeCreate() {
+        this.loadingStore.toggle_loading()
+        const filters = ['change-password', 'profile-management']
+        const route = useRoute()
+        const router = useRouter()
+        if (!route.query?.flg) {
+            const path = route.name?.toString().replaceAll('index-', '')
+            if (!filters.includes(path as string)) {
+                const res = await check_user_has_access({
+                    user_id: useAuthStore().auth.user_id,
+                    role_id: useRoleStore().role.role.id,
+                    path: path
+                })
+
+                if (res.status == 200 && res.data.res != true) {
+                    router.push({ name: 'dashboard' })
+                }
+            }
+        } else {
+            router.push({ name: 'dashboard' })
+        }
+
+        setTimeout(() => {
+            this.loadingStore.toggle_loading()
+        }, 3000)
+
+
     }
 
 })

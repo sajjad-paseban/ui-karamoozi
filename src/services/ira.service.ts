@@ -25,9 +25,9 @@ export const find_data = async (id: number) =>{
     }
 }
 
-export const find_data_by_user_id = async () =>{
+export const get_data_by_manager = async () =>{
     try{
-        const result = await useApi.post('intern_recruitment_application.php?method=get-data-by-user-id', useAuthStore().auth)
+        const result = await useApi.post('intern_recruitment_application.php?method=get-data-by-manager', useAuthStore().auth)
         
         return result
 
@@ -38,7 +38,7 @@ export const find_data_by_user_id = async () =>{
 
 export const delete_ira = async (ids: any) =>{
     try{
-        const result = await useApi.post('intern_recruitment_application.php?method=delete-intern-recruitment-application', connectTokenWithData({ ids: (ids as Array<any>).join(',') }))
+        const result = await useApi.post('intern_recruitment_application.php?method=delete-intern-recruitment-application', connectTokenWithData({ ids: ids }))
         
         return result
 

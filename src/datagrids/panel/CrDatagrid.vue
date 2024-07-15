@@ -1,4 +1,5 @@
 <template>
+    <cr-company-information-dialog v-if="crDialog.show" :id="crDialog.id" @close="crDialog.show = false" />
     <div class="panel-ira-datagrid">
         <vue-good-table :columns="columns" :rows="rows" :search-options="options.search" :select-options="options.select"
             :sort-options="options.sort" :pagination-options="options.pagination" line-numbers="true" compactMode
@@ -7,10 +8,18 @@
             <template #table-row="props">
                 <div v-if="props.column.field == 'actions'">
                     <div class="d-flex justify-content-center">
-                        <button v-if="props.row.status == null" class="btn btn-sm btn-danger mx-1 d-flex align-items-center"
-                            @click="deleteAction(props.row.id, props.row.originalIndex)" style="height: 28px;">
-                            <i class="pi pi-trash"></i>
-                        </button>
+                        <div v-if="props.row.status == null">
+                            <button class="btn btn-sm btn-danger m-1 d-flex align-items-center"
+                                @click="handleStatus(false, props.row.id)" style="height: 28px;"
+                                :disabled="props.row.status == 0 ? true : false">
+                                <i class="pi pi-times-circle"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success m-1 d-flex align-items-center"
+                                @click="handleStatus(true, props.row.id)" style="height: 28px;"
+                                :disabled="props.row.status == 1 ? true : false">
+                                <i class="pi pi-check"></i>
+                            </button>
+                        </div>
                         <span v-else>
                             -
                         </span>
@@ -20,6 +29,11 @@
                     <span v-if="props.row.status == 1">تایید شده توسط مدیر گروه</span>
                     <span v-if="props.row.status == 0">رد شده توسط مدیر گروه</span>
                     <span v-if="props.row.status == null">نامشخص</span>
+                </div>
+                <div v-else-if="props.column.field == 'company_info'">
+                    <button class="btn btn-sm btn-outline-primary mx-1" @click="handleDialog(props.row.cra_id)">
+                        <i class="pi pi-eye" style="font-size: 16px; position: relative; top: 2px; cursor: pointer;"></i>
+                    </button>
                 </div>
                 <div v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -48,33 +62,39 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { delete_ira, get_data, change_status_ira } from '@/services/ira.service'
+import { get_data_by_manager, change_status_ira } from '@/services/ira.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
-
+import CrCompanyInformationDialog from '@/dialogs/CrCompanyInformationDialog.vue';
 export default defineComponent({
     name: 'panel-ira-datagrid',
     components: {
         VueGoodTable,
         Button,
-        AkPlus
+        AkPlus,
+        CrCompanyInformationDialog,
     },
     methods: {
-        deleteAction(index: number, originalIndex: number) {
-
+        handleStatus(status: boolean, id: number) {
             AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
                 if (result.isConfirmed) {
+                    const res = await change_status_ira({ status: status == false ? 0 : 1 }, id)
 
-                    this.rows.splice(originalIndex, 1)
-
-                    const result = await delete_ira(index)
+                    this.rows.map((item: any, index: number) => {
+                        if (item.id == id) {
+                            item.status = status == false ? 0 : 1
+                        }
+                    })
 
                     Toast.fire({
-                        text: result.data.message,
-                        icon: result.status == 200 ? 'success' : 'error'
+                        text: res.data.message,
+                        icon: res.status == 200 ? 'success' : 'error'
                     })
                 }
             })
-
+        },
+        handleDialog(id: any) {
+            this.crDialog.id = id
+            this.crDialog.show = true
         },
         tdClassFunc(row: any) {
             if (row.status == null)
@@ -89,10 +109,18 @@ export default defineComponent({
     },
     data() {
         return {
+            crDialog: {
+                id: null,
+                show: false
+            },
             columns: [
                 {
                     label: 'کد درخواست',
                     field: 'code',
+                },
+                {
+                    label: 'مشخصات شرکت',
+                    field: 'company_info',
                 },
                 {
                     label: 'کد گروه',
@@ -167,7 +195,7 @@ export default defineComponent({
         }
     },
     async mounted() {
-        const res = await get_data()
+        const res = await get_data_by_manager()
         if (res.status == 200) {
             this.rows = res.data.row.intern_recruitment_application_list
         }

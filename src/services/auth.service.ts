@@ -44,6 +44,17 @@ export const check_auth_expiration = async (data: any) =>{
     }
 }
 
+export const check_user_has_access = async (data: any) =>{
+    try{
+        const result = await useApi.post('auth.php?method=check-user-has-access', JSON.stringify(data))
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
 export const change_password = async (data: any) =>{
     try{
         const result = await useApi.post('auth.php?method=change-password', JSON.stringify(connectTokenWithData(data)))

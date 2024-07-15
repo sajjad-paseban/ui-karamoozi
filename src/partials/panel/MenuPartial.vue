@@ -44,12 +44,11 @@
             </div>
             <ul>
                 <li v-for="(item, key) in updated_access_list" :key="key">
-                    <router-link
-                        :class="{ 'active': route.path.includes(item.menu.key_param) || route.name === item.menu.key_param }"
-                        :to="{ name: item.menu.key_param }">
+                    <a :class="{ 'active': route.path.includes(item.menu.key_param) || route.name === item.menu.key_param }"
+                        @click="handleMenuSelect(item.menu.key_param)">
                         {{ item.menu.title }}
                         <i :class="item.menu.logo"></i>
-                    </router-link>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -66,6 +65,9 @@ import { computed, defineComponent } from "vue";
 import { get_user_access } from "@/services/user.service";
 import { useRoute, useRouter } from "vue-router";
 import router from "@/router";
+import useLoadingStore from "@/store/loading-store";
+import { check_user_has_access } from "@/services/auth.service";
+import useAuthStore from "@/store/auth-store";
 
 export default defineComponent({
     name: 'menu-partial',
@@ -75,11 +77,14 @@ export default defineComponent({
         const roleStore = useRoleStore()
         const route = useRoute()
         const router = useRouter()
+        const loadingStore = useLoadingStore()
         return {
             siteStore,
             userStore,
             roleStore,
-            route
+            route,
+            router,
+            loadingStore
         }
     },
     methods: {
@@ -96,6 +101,26 @@ export default defineComponent({
             this.role.visibility = false
 
             router.push({ name: 'dashboard' })
+        },
+        async handleMenuSelect(name: string) {
+            this.loadingStore.toggle_loading()
+
+            const path = name.toString().replaceAll('index-', '')
+            const res = await check_user_has_access({
+                user_id: useAuthStore().auth.user_id,
+                role_id: useRoleStore().role.role.id,
+                path: path
+            })
+
+            if (res.status == 200 && res.data.res != true) {
+                this.router.push({ name: 'dashboard' })
+            } else {
+                this.router.push({ name: name })
+            }
+
+            setTimeout(() => {
+                this.loadingStore.toggle_loading()
+            }, 1000)
         }
     },
     data() {
@@ -281,6 +306,7 @@ export default defineComponent({
                     text-align: right;
                     font-size: 14px;
                     transition: all 400ms;
+                    cursor: pointer;
 
                     &:hover {
                         font-size: 15px;

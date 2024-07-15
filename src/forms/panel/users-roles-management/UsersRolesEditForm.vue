@@ -8,8 +8,9 @@
                 <Field type="text" as="select" dir="rtl" name="user_role_id" v-model="form.params.user_role_id"
                     id="user_role_id" class="form-control form-control-sm">
                     <option value="">یک گزینه را انتخاب کنید</option>
-                    <option v-for="(item, index) in usersOption" :key="index" :value="item.id">{{ item?.fname + ' ' +
-                        item?.lname }}</option>
+                    <option v-for="(item, index) in usersOption" :key="index" :value="item.id">{{ item?.fname && item?.lname
+                        ? item?.fname + ' ' +
+                        item?.lname : '0' + item?.nationalcode }}</option>
                 </Field>
                 <ErrorMessage name="user_role_id" />
             </div>

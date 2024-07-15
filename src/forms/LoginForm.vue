@@ -3,15 +3,13 @@
         <h3>
             سامانه کارآموزی
         </h3>
-        <Form
-            :validation-schema="form.LoginFormSchema"
-            @submit="handleSubmit"
-        >
+        <Form :validation-schema="form.LoginFormSchema" @submit="handleSubmit">
             <div class="form-group">
                 <label for="national_code">
                     کد ملی
                 </label>
-                <Field @keypress="handleNumber" name="national_code" id="national_code" class="form-control form-control-sm" />
+                <Field @keypress="handleNumber" name="national_code" id="national_code"
+                    class="form-control form-control-sm" />
                 <ErrorMessage name="national_code" />
             </div>
             <div class="form-group">
@@ -32,12 +30,7 @@
                 </router-link>
             </div>
             <div class="form-group d-flex justify-content-center my-3">
-                <Button 
-                    title="ورود به پنل کاربری"
-                    group="alpha"
-                    btn-class="btn btn-secondary"
-                    type="submit"
-                />
+                <Button title="ورود به پنل کاربری" group="alpha" btn-class="btn btn-secondary" type="submit" />
             </div>
         </Form>
     </div>
@@ -59,8 +52,8 @@ export default defineComponent({
         ErrorMessage,
         Button,
     },
-    data(){
-        return{
+    data() {
+        return {
             form: {
                 LoginFormSchema,
                 params: {
@@ -71,19 +64,19 @@ export default defineComponent({
         }
     },
     methods: {
-        handleNumber(e: any){
+        handleNumber(e: any) {
             let persianNumbers = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹", "۰"]
-            let normalNumbers = ["1","2","3","4","5","6","7","8","9","0","-"]
-            if(!(normalNumbers.includes(e.key) || persianNumbers.includes(e.key)))
+            let normalNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-"]
+            if (!(normalNumbers.includes(e.key) || persianNumbers.includes(e.key)))
                 e.preventDefault()
         },
-        async handleSubmit(values: any, { resetForm }: any){
+        async handleSubmit(values: any, { resetForm }: any) {
             const res = await login(values);
-            
-            if(res.data.code == 200){
-                
+
+            if (res.data.code == 200) {
+
                 useAuthStore().set_auth(
-                    res.data.row.user_info.id, 
+                    res.data.row.user_info.id,
                     res.data.row.token
                 )
             }
@@ -92,30 +85,31 @@ export default defineComponent({
                 text: res.data.message,
                 icon: res.status == 200 ? 'success' : 'warning'
             }).then(() => {
-                this.$router.push('/panel')
+                this.$router.push('/panel?flg=true')
             })
-            
+
         }
     }
 })
 </script>
 
 <style lang="scss" scoped>
-    .login-form{
-        h3{
-            text-align: center;
-            font-family: 'yekan';
-            color: #fff;
-            margin: 10px 0;
-        }
-
-        a{
-            color: #0B44EF;
-            font-family: 'vazir';
-            font-size: 12px;
-        }
-        label{
-            color: rgba($color: #fff, $alpha: 0.8) !important;
-        }
+.login-form {
+    h3 {
+        text-align: center;
+        font-family: 'yekan';
+        color: #fff;
+        margin: 10px 0;
     }
+
+    a {
+        color: #0B44EF;
+        font-family: 'vazir';
+        font-size: 12px;
+    }
+
+    label {
+        color: rgba($color: #fff, $alpha: 0.8) !important;
+    }
+}
 </style>
