@@ -1,5 +1,5 @@
 <template>
-    <div v-if="form.enabled" class="alert alert-info px-2 py-2" dir="rtl">
+    <div v-if="form.enabled" class="alert alert-warning px-2 py-2" dir="rtl">
         <small>
             توجه: کاربر محترم، شما از قبل درخواستی ثبت کرده اید. درخواست شما درحال بررسی می باشد.
         </small>
@@ -42,21 +42,27 @@
                     v-model="form.params.intern_telephone" id="intern_telephone" class="form-control form-control-sm" />
                 <ErrorMessage name="intern_telephone" />
             </div>
-            <div class="form-group mx-1">
-                <label for="from_date">
+            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                <label for="from_date" style="font-size: 14px; margin: 5px 0;">
                     از تاریخ
                 </label>
-                <Field type="text" dir="rtl" name="from_date" v-model="form.params.from_date" id="from_date"
-                    class="form-control form-control-sm" />
-                <ErrorMessage name="from_date" />
+                <date-picker v-model="form.params.from_date" format="YYYY-MM-DD" display-format="jYYYY/jMM/jDD" />
+                <div class="form-group">
+                    <Field hidden type="text" dir="rtl" name="from_date" v-model="form.params.from_date" id="from_date"
+                        class="form-control form-control-sm" />
+                    <ErrorMessage name="from_date" />
+                </div>
             </div>
-            <div class="form-group mx-1">
-                <label for="to_date">
+            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                <label for="to_date" style="font-size: 14px; margin: 5px 0;">
                     تا تاریخ
                 </label>
-                <Field type="text" dir="rtl" name="to_date" v-model="form.params.to_date" id="to_date"
-                    class="form-control form-control-sm" />
-                <ErrorMessage name="to_date" />
+                <date-picker v-model="form.params.to_date" format="YYYY-MM-DD" display-format="jYYYY/jMM/jDD" />
+                <div class="form-group">
+                    <Field hidden type="text" dir="rtl" name="to_date" v-model="form.params.to_date" id="to_date"
+                        class="form-control form-control-sm" />
+                    <ErrorMessage name="to_date" />
+                </div>
             </div>
             <div class="form-group mx-1">
                 <label for="teacher">
@@ -92,7 +98,8 @@
                     </label>
                     <Field as="select" dir="rtl" name="ira_id" v-model="form.params.ira_id" id="ira_id"
                         class="form-select form-select-sm">
-                        <option v-for="(item, index) in form.companies" :key="index" :value="item?.id">
+                        <option v-for="(item, index) in form.companies" :key="index" :value="item?.id"
+                            v-show="item.capacity >= 1">
                             {{
                                 "کد شرکت: " + item?.code +
                                 "، نام شرکت: " + item?.cra?.company_name +
@@ -138,12 +145,12 @@
                 </div>
             </template>
 
-            <div class="form-group w-100 mx-1">
+            <div class="w-100 mx-1" dir="rtl">
                 <fieldset>
                     <legend>
                         روز های حاضر در محل کارآموزی
                     </legend>
-                    <div class="w-100 px-2 days">
+                    <div class="w-100 px-2 days" dir="ltr">
                         <Field name="days" @change="handleDays" id="thu" type="checkbox" v-model="form.params.days"
                             value="5" />
                         <label for="thu">
@@ -174,7 +181,7 @@
                         <label for="sat">
                             شنبه
                         </label>
-                        <div class="w-100">
+                        <div class="form-group w-100">
                             <ErrorMessage name="days" />
                         </div>
                     </div>
@@ -184,21 +191,27 @@
                                 شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="sat_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="sat_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="sat_from" v-model="form.params.sat_from" id="sat_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="sat_from" />
+                                <date-picker v-model="form.params.sat_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="sat_from" v-model="form.params.sat_from"
+                                        id="sat_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="sat_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="sat_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="sat_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="sat_to" v-model="form.params.sat_to" id="sat_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="sat_to" />
+                                <date-picker v-model="form.params.sat_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="sat_to" v-model="form.params.sat_to"
+                                        id="sat_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="sat_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -208,21 +221,27 @@
                                 یک شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="sun_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="sun_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="sun_from" v-model="form.params.sun_from" id="sun_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="sun_from" />
+                                <date-picker v-model="form.params.sun_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="sun_from" v-model="form.params.sun_from"
+                                        id="sun_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="sun_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="sun_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="sun_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="sun_to" v-model="form.params.sun_to" id="sun_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="sun_to" />
+                                <date-picker v-model="form.params.sun_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="sun_to" v-model="form.params.sun_to"
+                                        id="sun_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="sun_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -232,21 +251,27 @@
                                 دو شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="mon_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="mon_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="mon_from" v-model="form.params.mon_from" id="mon_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="mon_from" />
+                                <date-picker v-model="form.params.mon_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="mon_from" v-model="form.params.mon_from"
+                                        id="mon_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="mon_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="mon_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="mon_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="mon_to" v-model="form.params.mon_to" id="mon_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="mon_to" />
+                                <date-picker v-model="form.params.mon_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="mon_to" v-model="form.params.mon_to"
+                                        id="mon_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="mon_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -256,21 +281,27 @@
                                 سه شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="tue_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="tue_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="tue_from" v-model="form.params.tue_from" id="tue_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="tue_from" />
+                                <date-picker v-model="form.params.tue_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="tue_from" v-model="form.params.tue_from"
+                                        id="tue_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="tue_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="tue_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="tue_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="tue_to" v-model="form.params.tue_to" id="tue_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="tue_to" />
+                                <date-picker v-model="form.params.tue_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="tue_to" v-model="form.params.tue_to"
+                                        id="tue_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="tue_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -280,21 +311,27 @@
                                 چهار شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="wed_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="wed_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="wed_from" v-model="form.params.wed_from" id="wed_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="wed_from" />
+                                <date-picker v-model="form.params.wed_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="wed_from" v-model="form.params.wed_from"
+                                        id="wed_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="wed_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="wed_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="wed_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="wed_to" v-model="form.params.wed_to" id="wed_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="wed_to" />
+                                <date-picker v-model="form.params.wed_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="wed_to" v-model="form.params.wed_to"
+                                        id="wed_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="wed_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -304,21 +341,27 @@
                                 پنج شنبه
                             </legend>
 
-                            <div class="form-group mx-1">
-                                <label for="thu_from">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="thu_from" style="font-size: 14px; margin: 5px 0;">
                                     از ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="thu_from" v-model="form.params.thu_from" id="thu_from"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="thu_from" />
+                                <date-picker v-model="form.params.thu_from" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="thu_from" v-model="form.params.thu_from"
+                                        id="thu_from" class="form-control form-control-sm" />
+                                    <ErrorMessage name="thu_from" />
+                                </div>
                             </div>
-                            <div class="form-group mx-1">
-                                <label for="thu_to">
+                            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                                <label for="thu_to" style="font-size: 14px; margin: 5px 0;">
                                     تا ساعت
                                 </label>
-                                <Field type="text" dir="rtl" name="thu_to" v-model="form.params.thu_to" id="thu_to"
-                                    class="form-control form-control-sm" />
-                                <ErrorMessage name="thu_to" />
+                                <date-picker v-model="form.params.thu_to" type="time" min="07:00" max="22:00" />
+                                <div class="form-group">
+                                    <Field hidden type="text" dir="rtl" name="thu_to" v-model="form.params.thu_to"
+                                        id="thu_to" class="form-control form-control-sm" />
+                                    <ErrorMessage name="thu_to" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -334,7 +377,7 @@
                 <ErrorMessage name="description" />
             </div>
         </div>
-        <div class="d-flex mx-1 mt-3">
+        <div v-if="form.enabled == false" class="d-flex mx-1 mt-3">
             <button type="submit" :disabled="form.enabled" class="btn btn-sm btn-primary shadow-sm">
                 ذخیره
             </button>
@@ -345,15 +388,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import { customErrorMessage, handleNumber, Toast } from '@/helpers/Base'
-import { create_cra, find_data_by_user_id } from '@/services/cra.service'
+import { AskPrompt, customErrorMessage, handleNumber, Toast } from '@/helpers/Base'
 import { useRoute, useRouter } from 'vue-router'
 import useUserStore from '@/store/user-store'
-import { get_active_semesters, get_companies, get_teachers } from '@/services/stu_request.service'
+import { create_request, get_active_semesters, find_data_by_user_id, get_companies, get_teachers } from '@/services/stu_request.service'
 import * as yup from 'yup'
 import DatePicker from 'vue3-persian-datetime-picker'
 export default defineComponent({
-    name: 'cra-create-form',
+    name: 'stu-request-create-form',
+    props: ['stu_id', 'group_id'],
     components: {
         Form,
         Field,
@@ -534,23 +577,57 @@ export default defineComponent({
         this.form.params.intern_phone = this.userStore.user.info.phone
 
 
-        // const res_find = await find_data_by_user_id()
-        // const res = res_find.data.row.company_registration_application_list
-        // if (res) {
-        //     this.form.enabled = true
+        const res_find = await find_data_by_user_id()
+        if (res_find.status == 200) {
+            const res = res_find.data.row.requests
+            if (res) {
+                this.form.enabled = true
 
-        //     this.form.params.company_name = res.company_name;
-        //     this.form.params.company_manager_name = res.company_manager_name;
-        //     this.form.params.company_supervisor_name = res.company_supervisor_name;
-        //     this.form.params.company_supervisor_phone = '0' + res.company_supervisor_phone;
-        //     this.form.params.company_telephone = '0' + res.company_telephone;
-        //     this.form.params.company_address = res.company_address;
-        //     this.form.params.description = res.description;
-        // } else {
-        //     this.form.params.company_manager_name = this.userStore.user.info.fullname
-        //     this.form.params.company_supervisor_name = this.userStore.user.info.fullname
-        //     this.form.params.company_supervisor_phone = this.userStore.user.info.phone
-        // }
+                this.$emit('get-request-id', res.id)
+
+                this.form.params.semester_id = res.semester_id;
+                this.form.params.intern_name = res.intern_name;
+                this.form.params.intern_phone = res.intern_phone;
+                this.form.params.intern_telephone = res.intern_telephone;
+                this.form.params.from_date = res.from_date;
+                this.form.params.to_date = res.to_date;
+                this.form.params.teacher = res.teacher;
+                this.form.params.type = res.type;
+                this.form.params.ira_id = res.ira_id;
+                this.form.params.place_name = res.place_name;
+                this.form.params.place_telephone = res.place_telephone;
+                this.form.params.supervisor_name = res.supervisor_name;
+                this.form.params.supervisor_phone = res.supervisor_phone;
+                this.form.params.sat_from = res.sat_from;
+                this.form.params.sat_to = res.sat_to;
+                this.form.params.sun_from = res.sun_from;
+                this.form.params.sun_to = res.sun_to;
+                this.form.params.mon_from = res.mon_from;
+                this.form.params.mon_to = res.mon_to;
+                this.form.params.tue_from = res.tue_from;
+                this.form.params.tue_to = res.tue_to;
+                this.form.params.wed_from = res.wed_from;
+                this.form.params.wed_to = res.wed_to;
+                this.form.params.thu_from = res.thu_from;
+                this.form.params.thu_to = res.thu_to;
+                this.form.params.description = res.description;
+                this.form.params.days = []
+
+                if (res.sat == 1)
+                    this.form.params.days.push('0')
+                if (res.sun == 1)
+                    this.form.params.days.push('1')
+                if (res.mon == 1)
+                    this.form.params.days.push('2')
+                if (res.tue == 1)
+                    this.form.params.days.push('3')
+                if (res.wed == 1)
+                    this.form.params.days.push('4')
+                if (res.thu == 1)
+                    this.form.params.days.push('5')
+
+            }
+        }
 
     },
     methods: {
@@ -570,45 +647,77 @@ export default defineComponent({
 
         },
         handleSubmit: async function (values: any, { resetForm }: any) {
+            AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
+                if (result.isConfirmed) {
+                    this.clearDays()
 
-            this.clearDays()
+                    this.form.params.days?.map((item: any, index: number) => {
+                        if (item == '0')
+                            this.form.params.sat = 1
+                        if (item == '1')
+                            this.form.params.sun = 1
+                        if (item == '2')
+                            this.form.params.mon = 1
+                        if (item == '3')
+                            this.form.params.tue = 1
+                        if (item == '4')
+                            this.form.params.wed = 1
+                        if (item == '5')
+                            this.form.params.thu = 1
+                    })
 
-            this.form.params.days?.map((item: any, index: number) => {
-                if (item == '0')
-                    this.form.params.sat = 1
-                if (item == '1')
-                    this.form.params.sun = 1
-                if (item == '2')
-                    this.form.params.mon = 1
-                if (item == '3')
-                    this.form.params.tue = 1
-                if (item == '4')
-                    this.form.params.wed = 1
-                if (item == '5')
-                    this.form.params.thu = 1
+                    const date = new Date()
+                    const fullYear = date.getFullYear().toString()
+                    const year = fullYear.slice(fullYear.length - 2, fullYear.length)
+                    const month = date.getMonth().toString()
+                    const day = date.getDay().toString()
+                    const hour = date.getHours().toString()
+                    const min = date.getMinutes().toString()
+                    const second = date.getSeconds().toString()
+                    const milisec = date.getMilliseconds().toString()
+
+                    const code =
+                        year +
+                        month +
+                        day +
+                        hour +
+                        min +
+                        second +
+                        milisec
+
+                    Object.assign(values, {
+                        code: code,
+                        stu_semester_id: this.stu_id,
+                        group_id: this.group_id,
+                        sat: this.form.params.sat,
+                        sun: this.form.params.sun,
+                        mon: this.form.params.mon,
+                        tue: this.form.params.tue,
+                        wed: this.form.params.wed,
+                        thu: this.form.params.thu,
+                    })
+
+
+                    if (this.form.params.from_date.replaceAll('/', '') < this.form.params.to_date.replaceAll('/', '')) {
+                        const res = await create_request(values)
+
+                        Toast.fire({
+                            text: res.data.message ?? 'عملیات با خطا مواجه شد',
+                            icon: res.data.code == 200 ? 'success' : 'error'
+                        }).then(() => {
+                            this.form.enabled = true
+                            location.reload()
+                        })
+                    } else {
+                        Toast.fire({
+                            text: 'فیلد تا تاریخ می بایست بزرگتر از فیلد از تاریخ باشد.',
+                            icon: 'error'
+                        })
+                    }
+                }
             })
 
-            Object.assign(values, {
-                sat: this.form.params.sat,
-                sun: this.form.params.sun,
-                mon: this.form.params.mon,
-                tue: this.form.params.tue,
-                wed: this.form.params.wed,
-                thu: this.form.params.thu,
-            })
 
-            console.log(values)
-
-            // const res = await create_cra(values)
-
-            // Toast.fire({
-            //     text: res.data.message ?? 'عملیات با خطا مواجه شد',
-            //     icon: res.data.code == 200 ? 'success' : 'error'
-            // }).then(() => {
-            //     resetForm()
-            //     this.router.push({ name: 'dashboard' })
-            //     this.form.enabled = true
-            // })
         }
     },
 })
@@ -618,9 +727,12 @@ export default defineComponent({
 .days {
     label {
         margin: 0 5px;
-        position: relative;
-        bottom: 3px;
         user-select: none;
     }
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    align-items: center;
 }
 </style>

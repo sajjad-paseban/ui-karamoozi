@@ -233,6 +233,18 @@ const PanelRoute: RouteRecordRaw[] = [
             },
         ]
     },
+    {
+        path: 'stu-request-management',
+        name: 'stu-request-management',
+        redirect: { name: 'index-stu-request-management' },
+        children:[
+            {
+                path: '',
+                name: 'index-stu-request-management',
+                component: () => import('@/views/panel/stu-request-management/IndexView.vue')
+            },
+        ]
+    },
 ]
 
 

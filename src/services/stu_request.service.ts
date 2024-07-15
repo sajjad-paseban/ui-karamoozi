@@ -34,6 +34,17 @@ export const get_companies = async () =>{
     }
 }
 
+export const get_requests_for_teacher = async () =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=get-data-for-teacher', useAuthStore().auth)
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
 export const get_teachers = async () =>{
     try{
         const result = await useApi.post('stu_request.php?method=get-teachers', useAuthStore().auth)
@@ -45,29 +56,53 @@ export const get_teachers = async () =>{
     }
 }
 
-// export const find_data = async (id: number) =>{
-//     try{
-//         const result = await useApi.post('site.php?method=get-data', useAuthStore().auth, {
-//             params: { id: id }
-//         })
+export const create_request = async (data: any) =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=create-request', connectTokenWithData(data))
         
-//         return result
+        return result
 
-//     }catch(res: any){
-//         return res.response
-//     }
-// }
+    }catch(res: any){
+        return res.response
+    }
+}
 
-// export const delete_site = async (ids: any) =>{
-//     try{
-//         const result = await useApi.post('site.php?method=delete-site', connectTokenWithData({ ids: (ids as Array<any>).join(',') }))
+export const find_data_by_user_id = async () =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=find-data-by-user-id', useAuthStore().auth)
         
-//         return result
+        return result
 
-//     }catch(res: any){
-//         return res.response
-//     }
-// }
+    }catch(res: any){
+        return res.response
+    }
+}
+
+export const delete_request = async (id: any) =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=delete-request', connectTokenWithData({ id: id }))
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
+export const find_data = async (id: number) =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=get-data', useAuthStore().auth,{
+            params: {
+                id: id
+            }
+        })
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
 
 // export const create_site = async (data: any) =>{
 //     try{

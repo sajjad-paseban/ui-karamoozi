@@ -1,118 +1,104 @@
 <template>
-    <div class="alert alert-success px-2 py-2" dir="rtl">
-        <small>
-            درخواست شما توسط استاد تایید شده است.
-        </small>
-    </div>
-    <div class="d-flex flex-wrap justify-content-start flex-row-reverse align-items-start">
-        <div class="form-group w-100 mx-1">
-            <label for="teacher_description">
-                توضیحات استاد
-            </label>
-            <Field as="textarea" type="text" dir="rtl" name="teacher_description" v-model="form.params.company_name"
-                id="company_name" class="form-control form-control-sm" />
-            <ErrorMessage name="company_name" />
+    <template v-if="request_id == 0">
+        <div class="alert alert-primary mt-2" dir="rtl">
+            <small>
+                شما در حال حاضر درخواستی ثبت نکرده اید.
+            </small>
         </div>
-    </div>
-    <div class="alert alert-success px-2 mt-3 py-2" dir="rtl">
-        <small>
-            درخواست شما توسط مدیر گروه تایید شده است
-        </small>
-    </div>
-    <div class="d-flex flex-wrap justify-content-start flex-row-reverse align-items-start">
-        <div class="form-group w-100 mx-1">
-            <label for="manager_description">
-                .توضیحات مدیر گروه
-            </label>
-            <Field as="textarea" type="text" dir="rtl" name="teacher_description" v-model="form.params.company_name"
-                id="company_name" class="form-control form-control-sm" />
-            <ErrorMessage name="company_name" />
+    </template>
+    <template v-if="request_id != 0">
+        <div class="alert px-2 py-2"
+            :class="{ 'alert-primary': form.params.teacher_confirm == null, 'alert-danger': form.params.teacher_confirm == 0, 'alert-success': form.params.teacher_confirm == 1 }"
+            dir="rtl">
+            <small v-if="form.params.teacher_confirm == null">
+                درخواست شما توسط استاد درحال بررسی می باشد.
+            </small>
+            <small v-if="form.params.teacher_confirm == 0">
+                درخواست شما توسط استاد رد شده است.
+            </small>
+            <small v-if="form.params.teacher_confirm == 1">
+                درخواست شما توسط استاد تایید شده است.
+            </small>
         </div>
-    </div>
+        <div class="d-flex flex-wrap justify-content-start flex-row-reverse align-items-start"
+            v-if="form.params.teacher_confirm == 0">
+            <div class="form-group w-100 mx-1">
+                <label for="teacher_description">
+                    توضیحات استاد
+                </label>
+                <Field disabled as="textarea" type="text" dir="rtl" name="teacher_description"
+                    v-model="form.params.teacher_description" id="teacher_description"
+                    class="form-control form-control-sm" />
+                <ErrorMessage name="teacher_description" />
+            </div>
+        </div>
+        <div class="alert px-2 mt-3 py-2"
+            :class="{ 'alert-primary': form.params.manager_confirm == null, 'alert-danger': form.params.manager_confirm == 0, 'alert-success': form.params.manager_confirm == 1 }"
+            dir="rtl">
+            <small v-if="form.params.manager_confirm == null">
+                درخواست شما توسط مدیر گروه درحال بررسی می باشد.
+            </small>
+            <small v-if="form.params.manager_confirm == 0">
+                درخواست شما توسط مدیر گروه رد شده است.
+            </small>
+            <small v-if="form.params.manager_confirm == 1">
+                درخواست شما توسط مدیر گروه تایید شده است.
+            </small>
+        </div>
+        <div class="d-flex flex-wrap justify-content-start flex-row-reverse align-items-start"
+            v-if="form.params.manager_confirm == 0">
+            <div class="form-group w-100 mx-1">
+                <label for="manager_description">
+                    توضیحات مدیر گروه
+                </label>
+                <Field disabled as="textarea" type="text" dir="rtl" name="manager_description"
+                    v-model="form.params.manager_description" id="manager_description"
+                    class="form-control form-control-sm" />
+                <ErrorMessage name="manager_description" />
+            </div>
+        </div>
+    </template>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import { CraFormSchema } from '@/forms/Schema'
-import { handleNumber, Toast } from '@/helpers/Base'
-import { create_cra, find_data_by_user_id } from '@/services/cra.service'
-import { useRoute, useRouter } from 'vue-router'
-import useUserStore from '@/store/user-store'
+import { find_data } from '@/services/stu_request.service'
 export default defineComponent({
-    name: 'cra-create-form',
+    name: 'stu-request-result-form',
+    props: ['request_id'],
     components: {
         Form,
         Field,
         ErrorMessage
     },
-    setup() {
-        const route = useRoute()
-        const router = useRouter()
-        const userStore = useUserStore()
-        return {
-            route,
-            router,
-            userStore
-        }
-    },
     data(): any {
         return {
             form: {
-                CraFormSchema,
                 params: {
-                    company_name: null,
-                    company_manager_name: null,
-                    company_supervisor_name: null,
-                    company_supervisor_phone: null,
-                    company_telephone: null,
-                    company_address: null,
-                    description: null,
-                },
-                enabled: false
+                    teacher_confirm: null,
+                    manager_confirm: null,
+                    teacher_description: null,
+                    manager_description: null,
+                }
             }
         }
     },
-    async mounted() {
-        const res_find = await find_data_by_user_id()
-        const res = res_find.data.row.company_registration_application_list
-        if (res) {
-            this.form.enabled = true
+    mounted() {
+        setTimeout(async () => {
+            if (this.request_id != 0) {
+                const res_find = await find_data(this.request_id)
+                if (res_find.status == 200 && res_find.data.row.requests) {
+                    this.form.params.teacher_confirm = res_find.data.row.requests.teacher_confirm
+                    this.form.params.manager_confirm = res_find.data.row.requests.manager_confirm
+                    this.form.params.teacher_description = res_find.data.row.requests.teacher_description
+                    this.form.params.manager_description = res_find.data.row.requests.manager_description
 
-            this.form.params.company_name = res.company_name;
-            this.form.params.company_manager_name = res.company_manager_name;
-            this.form.params.company_supervisor_name = res.company_supervisor_name;
-            this.form.params.company_supervisor_phone = '0' + res.company_supervisor_phone;
-            this.form.params.company_telephone = '0' + res.company_telephone;
-            this.form.params.company_address = res.company_address;
-            this.form.params.description = res.description;
-        } else {
-            this.form.params.company_manager_name = this.userStore.user.info.fullname
-            this.form.params.company_supervisor_name = this.userStore.user.info.fullname
-            this.form.params.company_supervisor_phone = this.userStore.user.info.phone
-        }
+                }
+            }
+        }, 1000)
 
     },
-    methods: {
-        handleNumber,
-        statusHandler: function (el: any) {
-            this.form.params.status = el.target.checked
-        },
-        handleSubmit: async function (values: any, { resetForm }: any) {
 
-            Object.assign(values, { status: this.form.params.status ? 1 : 0 })
-
-            const res = await create_cra(values)
-
-            Toast.fire({
-                text: res.data.message ?? 'عملیات با خطا مواجه شد',
-                icon: res.data.code == 200 ? 'success' : 'error'
-            }).then(() => {
-                resetForm()
-                this.router.push({ name: 'dashboard' })
-                this.form.enabled = true
-            })
-        }
-    },
 })
 </script>
