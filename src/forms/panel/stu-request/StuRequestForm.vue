@@ -127,6 +127,14 @@
                         v-model="form.params.place_telephone" id="place_telephone" class="form-control form-control-sm" />
                     <ErrorMessage name="place_telephone" />
                 </div>
+                <div class="form-group w-100 mx-1">
+                    <label for="place_address">
+                        آدرس محل کارآموزی
+                    </label>
+                    <Field type="text" dir="rtl" name="place_address" v-model="form.params.place_address" id="place_address"
+                        class="form-control form-control-sm" />
+                    <ErrorMessage name="place_address" />
+                </div>
                 <div class="form-group mx-1">
                     <label for="supervisor_name">
                         نام سرپرست کارآموزی
@@ -428,6 +436,11 @@ export default defineComponent({
                     return schema.required(customErrorMessage('شماره تلفن محل کارآموزی').required).length(11, customErrorMessage('شماره تلفن محل کارآموزی', { length: 11 }).length)
                 return schema
             }),
+            place_address: yup.string().when("type", (value: any, schema) => {
+                if (value == 1 || value == '1')
+                    return schema.required(customErrorMessage('آدرس محل کارآموزی').required)
+                return schema
+            }),
             supervisor_name: yup.string().when("type", (value: any, schema) => {
                 if (value == 1 || value == '1')
                     return schema.required(customErrorMessage('نام سرپرست کارآموزی').required)
@@ -528,6 +541,7 @@ export default defineComponent({
                     ira_id: null,
                     place_name: null,
                     place_telephone: null,
+                    place_address: null,
                     supervisor_name: null,
                     supervisor_phone: null,
                     description: null,
@@ -596,6 +610,7 @@ export default defineComponent({
                 this.form.params.ira_id = res.ira_id;
                 this.form.params.place_name = res.place_name;
                 this.form.params.place_telephone = res.place_telephone;
+                this.form.params.place_address = res.place_address;
                 this.form.params.supervisor_name = res.supervisor_name;
                 this.form.params.supervisor_phone = res.supervisor_phone;
                 this.form.params.sat_from = res.sat_from;

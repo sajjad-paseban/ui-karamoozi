@@ -45,6 +45,17 @@ export const get_requests_for_teacher = async () =>{
     }
 }
 
+export const get_requests_for_manager = async () =>{
+    try{
+        const result = await useApi.post('stu_request.php?method=get-data-for-manager', useAuthStore().auth)
+        
+        return result
+
+    }catch(res: any){
+        return res.response
+    }
+}
+
 export const get_teachers = async () =>{
     try{
         const result = await useApi.post('stu_request.php?method=get-teachers', useAuthStore().auth)
