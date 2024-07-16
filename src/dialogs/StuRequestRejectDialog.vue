@@ -1,8 +1,8 @@
 <script lang="ts">
+import StuRequestRejectForm from "@/forms/panel/stu-request/StuRequestRejectForm.vue";
 import { defineComponent } from "vue";
-// import PresentInfoDatagrid from "@/datagrids/panel/PresentInfoDatagrid.vue";
 export default defineComponent({
-    // components: { PresentInfoDatagrid },
+    components: { StuRequestRejectForm },
     name: 'stu-request-reject-dialog',
     props: ['data'],
     methods: {
@@ -21,7 +21,7 @@ export default defineComponent({
             </span>
         </div>
         <div class="dialog-body">
-            <stu-request-reject-datagrid :data="data" />
+            <stu-request-reject-form :data="data" />
         </div>
     </div>
 </template>

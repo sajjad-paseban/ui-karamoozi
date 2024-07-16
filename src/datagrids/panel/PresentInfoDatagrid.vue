@@ -59,12 +59,12 @@ export default defineComponent({
                 {
                     label: 'از تاریخ',
                     width: '100px',
-                    field: 'from_date',
+                    field: 'from_date_fa',
                 },
                 {
                     label: 'تا تاریخ',
                     width: '100px',
-                    field: 'to_date',
+                    field: 'to_date_fa',
                 },
                 {
                     label: 'شنبه',

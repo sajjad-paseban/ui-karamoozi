@@ -245,6 +245,18 @@ const PanelRoute: RouteRecordRaw[] = [
             },
         ]
     },
+    {
+        path: 'my-students',
+        name: 'my-students',
+        redirect: { name: 'index-my-students' },
+        children:[
+            {
+                path: '',
+                name: 'index-my-students',
+                component: () => import('@/views/panel/my-students/IndexView.vue')
+            },
+        ]
+    },
 ]
 
 

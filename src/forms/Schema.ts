@@ -459,3 +459,12 @@ export const CvtStudentSchema = yup.object({
 
     
 })
+
+export const StuRequestRejectFormSchema = yup.object({
+
+    description: yup
+    .string()
+    .required(customErrorMessage('توضیحات').required),
+
+    
+})

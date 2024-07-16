@@ -17,14 +17,16 @@
                     class="form-control form-control-sm" />
                 <ErrorMessage name="lname" />
             </div>
-            <div class="form-group mx-1">
-                <label for="birthdate">
+            <div class="mx-1" style="font-family: 'vazir';" dir="rtl">
+                <label for="birthdate" style="font-size: 14px; margin: 5px 0;">
                     تاریخ تولد
                 </label>
-                <!-- <date-picker v-model="form.params.birthdate"></date-picker> -->
-                <Field type="date" v-model="form.params.birthdate" name="birthdate" id="birthdate"
-                    class="form-control form-control-sm" />
-                <ErrorMessage name="birthdate" />
+                <date-picker v-model="form.params.birthdate" format="YYYY-MM-DD" display-format="jYYYY/jMM/jDD" />
+                <div class="form-group">
+                    <Field hidden type="text" dir="rtl" name="birthdate" v-model="form.params.birthdate" id="birthdate"
+                        class="form-control form-control-sm" />
+                    <ErrorMessage name="birthdate" />
+                </div>
             </div>
             <div class="form-group mx-1">
                 <label for="nationalcode">

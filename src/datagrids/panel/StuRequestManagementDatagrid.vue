@@ -24,8 +24,8 @@
                             <i class="pi pi-times-circle mx-1"></i>
                             رد
                         </button>
-                        <button @click="handleConfirm" class="btn btn-sm btn-success m-1 d-flex align-items-center"
-                            style="height: 28px;">
+                        <button @click="handleConfirm(props.row.id, props.row.originalIndex)"
+                            class="btn btn-sm btn-success m-1 d-flex align-items-center" style="height: 28px;">
                             <i class="pi pi-check mx-1"></i>
                             تایید
                         </button>
@@ -37,8 +37,8 @@
                             <i class="pi pi-times-circle mx-1"></i>
                             رد
                         </button>
-                        <button @click="handleConfirm" class="btn btn-sm btn-success m-1 d-flex align-items-center"
-                            style="height: 28px;">
+                        <button @click="handleConfirm(props.row.id, props.row.originalIndex)"
+                            class="btn btn-sm btn-success m-1 d-flex align-items-center" style="height: 28px;">
                             <i class="pi pi-check mx-1"></i>
                             تایید
                         </button>
@@ -101,13 +101,15 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next'
 import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
-import { get_requests_for_manager, get_requests_for_teacher } from '@/services/stu_request.service'
+import { confirm_request_by_manager, confirm_request_by_teacher, get_requests_for_manager, get_requests_for_teacher } from '@/services/stu_request.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
 import InternInfoDialog from '@/dialogs/InternInfoDialog.vue';
 import InternPlaceInfoDialog from '@/dialogs/InternPlaceInfoDialog.vue';
 import PresentInfoDialog from '@/dialogs/PresentInfoDialog.vue';
 import StuRequestRejectDialog from '@/dialogs/StuRequestRejectDialog.vue';
 import useRoleStore from '@/store/role-store';
+import moment from 'jalali-moment';
+import { useRouter } from 'vue-router';
 export default defineComponent({
     name: 'panel-stu-request-management-datagrid',
     components: {
@@ -121,9 +123,11 @@ export default defineComponent({
     },
     setup() {
         const roleStore = useRoleStore()
+        const router = useRouter()
 
         return {
-            roleStore
+            roleStore,
+            router
         }
     },
     methods: {
@@ -148,8 +152,36 @@ export default defineComponent({
                 this.dialogs.reject.data = this.rows[originalIndex]
             }
         },
-        handleConfirm() {
+        handleConfirm(id: number, index: number) {
+            AskPrompt('آیا از انجام اینکار مطمئن هستید؟', 'warning').then(async result => {
+                if (result.isConfirmed) {
 
+                    if (this.roleStore.role.role.id == 6) {
+                        const res = await confirm_request_by_manager(id)
+
+                        Toast.fire({
+                            text: res.data.message,
+                            icon: res.status == 200 ? 'success' : 'error'
+                        }).then(() => {
+                            (this.rows[index] as any).manager_confirm = 1
+                        })
+
+
+
+                    } else if (this.roleStore.role.role.id == 5) {
+                        const res = await confirm_request_by_teacher(id)
+
+                        Toast.fire({
+                            text: res.data.message,
+                            icon: res.status == 200 ? 'success' : 'error'
+                        }).then(() => {
+                            (this.rows[index] as any).teacher_confirm = 1
+                        })
+
+                    }
+
+                }
+            })
         },
         tdClassFunc(row: any) {
             if (row.status == null)
@@ -311,11 +343,21 @@ export default defineComponent({
             const res = await get_requests_for_manager()
             if (res.status == 200 && res.data.row.requests) {
                 this.rows = res.data.row.requests
+                this.rows.map((item: any, index) => {
+                    item.from_date_fa = moment(item.from_date).locale('fa').format('YYYY/M/D')
+                    item.to_date_fa = moment(item.to_date).locale('fa').format('YYYY/M/D')
+
+                })
             }
         } else if (this.roleStore.role.role.id == 5) { // teacher
             const res = await get_requests_for_teacher()
             if (res.status == 200 && res.data.row.requests) {
                 this.rows = res.data.row.requests
+                this.rows.map((item: any, index) => {
+                    item.from_date_fa = moment(item.from_date).locale('fa').format('YYYY/M/D')
+                    item.to_date_fa = moment(item.to_date).locale('fa').format('YYYY/M/D')
+
+                })
             }
         }
     }

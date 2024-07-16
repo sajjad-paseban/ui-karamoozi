@@ -19,7 +19,7 @@ export default defineComponent({
             </h1>
         </div>
     </div>
-    <div class="row">
+    <div class="row my-3">
         <div class="col">
             <stu-request-management-datagrid />
         </div>

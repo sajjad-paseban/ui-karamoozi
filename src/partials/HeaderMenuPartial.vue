@@ -1,21 +1,21 @@
 <template>
-    <ul>
-        <li :class="{active: route == 0}">
+    <ul :class="{ 'desktop': mode == 'desktop', 'mobile': mode == 'mobile' }">
+        <li :class="{ active: route == 0 }">
             <router-link to="/" @click="set_ment_item_active('home')">
                 صفحه اصلی
             </router-link>
         </li>
-        <li :class="{active: route == 1}">
+        <li :class="{ active: route == 1 }">
             <router-link to="/company" @click="set_ment_item_active('company')">
                 لیست شرکت ها
             </router-link>
         </li>
-        <li :class="{active: route == 2}">
+        <li :class="{ active: route == 2 }">
             <router-link to="/news" @click="set_ment_item_active('news')">
                 اخبار و اطلاعیه ها
             </router-link>
         </li>
-        <li :class="{active: route == 3}">
+        <li :class="{ active: route == 3 }">
             <router-link to="/contact-us" @click="set_ment_item_active('contactus')">
                 ارتباط با ما
             </router-link>
@@ -27,55 +27,108 @@
 import { defineComponent } from 'vue'
 import { menu_switch } from '@/helpers/Functions'
 export default defineComponent({
+    props: {
+        mode: {
+            default: 'desktop'
+        }
+    },
     name: 'header-menu-partial',
-    data(){
+    data() {
         return {
             route: 0
         }
     },
     methods: {
-        set_ment_item_active(name: string){
+        set_ment_item_active(name: string) {
             this.route = menu_switch(name);
         }
     },
-    mounted(){
+    mounted() {
         this.route = menu_switch((this.$route.name as string));
     }
 })
 </script>
 
 <style lang="scss" scoped>
-    ul{
-        display: flex;
-        list-style: none;
-        direction: rtl;        
-        margin: 0 15px;
-        height: 100%;
-        li{
-            font-family: 'yekan';
-            font-size: 15px;
-            margin: 0 10px;
-            a{
-                display: flex;
-                align-items: center;
-                height: 100%;
+ul.desktop {
+    display: flex;
+    list-style: none;
+    direction: rtl;
+    margin: 0 15px;
+    height: 100%;
+
+    li {
+        font-family: 'yekan';
+        font-size: 15px;
+        margin: 0 10px;
+
+        a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            color: #fff;
+            transition: color 300ms;
+
+            &:visited {
                 color: #fff;
-                transition: color 300ms;
-                &:visited{
-                    color: #fff;
-                }
-
-                &:hover{
-                    color: #4CAF50;
-                }
-
             }
-            &.active{
-                a{
-                    color: #4CAF50;
-                }
-                border-bottom: 3.5px solid #4CAF50;
+
+            &:hover {
+                color: #4CAF50;
             }
+
+        }
+
+        &.active {
+            a {
+                color: #4CAF50;
+            }
+
+            border-bottom: 3.5px solid #4CAF50;
         }
     }
+}
+
+ul.mobile {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    list-style: none;
+    direction: rtl;
+    margin: 0 15px;
+    height: 100%;
+
+    li {
+        font-family: 'yekan';
+        font-size: 15px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 4px;
+
+        a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            color: #fff;
+            transition: color 300ms;
+
+            &:visited {
+                color: #fff;
+            }
+
+            &:hover {
+                color: #4CAF50;
+            }
+
+        }
+
+        &.active {
+            a {
+                color: #fff;
+            }
+
+            background-color: #4CAF50;
+        }
+    }
+}
 </style>

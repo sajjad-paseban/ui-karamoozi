@@ -22,11 +22,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 .item {
     position: relative;
-    height: 600px;
+    height: 500px;
 
     img {
         width: 100%;
-        height: 600px;
+        height: 500px;
         object-fit: cover;
         object-position: center center;
     }
@@ -56,12 +56,7 @@ export default defineComponent({
             font-family: 'KOODAKBOLD';
             color: #fff;
             transition: transform 500ms;
-        }
-
-        &:hover {
-            h1 {
-                transform: scale(1.5);
-            }
+            text-align: center;
         }
     }
 }

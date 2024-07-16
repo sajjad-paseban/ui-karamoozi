@@ -141,6 +141,7 @@ export default defineComponent({
     .news-content {
         padding: 10px 15px;
         width: calc(100% - 400px);
+        overflow: hidden;
 
         .news-content-header {
             .news-content-header-img {
@@ -177,12 +178,27 @@ export default defineComponent({
         }
 
         .news-content-body {
-            padding: 10px 0;
+            padding: 10px 20px;
             direction: rtl;
             text-align: justify;
             font-family: vazir;
             font-size: 14px;
             line-height: 1.75;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .news-single-view {
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+
+        .news-list {
+            width: 100%;
+        }
+
+        .news-content {
+            width: 100%;
         }
     }
 }

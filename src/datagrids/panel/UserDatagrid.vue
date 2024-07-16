@@ -47,6 +47,7 @@ import Button from '@/components/Button.vue'
 import { AkPlus } from "@kalimahapps/vue-icons";
 import { delete_user, get_data, reset_password } from '@/services/user.service'
 import { AskPrompt, Toast } from '@/helpers/Base';
+import moment from 'jalali-moment';
 
 export default defineComponent({
     name: 'panel-user-datagrid',
@@ -111,7 +112,7 @@ export default defineComponent({
                 },
                 {
                     label: 'تاریخ تولد',
-                    field: 'birthdate',
+                    field: 'birthdate_fa',
                 },
                 {
                     label: 'کد ملی',
@@ -176,8 +177,13 @@ export default defineComponent({
     },
     async mounted() {
         const res = await get_data()
-        if (res.status == 200)
+        if (res.status == 200) {
             this.rows = res.data.row.user_list
+            this.rows.map((item: any, index) => {
+                item.birthdate_fa = item.birthdate ? moment(item.birthdate).locale('fa').format('YYYY/M/D') : null
+                item.nationalcode = '0' + item.nationalcode
+            })
+        }
     }
 })
 </script>
